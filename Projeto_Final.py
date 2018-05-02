@@ -33,7 +33,7 @@ class Torre(pygame.sprite.Sprite):
         self.image=pygame.image.load(imagem)
     
     def Vida_torre(self,dano):
-        vida = 'a definir'
+        vida = 10000
         vida += -dano
         
         return vida
@@ -45,19 +45,21 @@ tela = pygame.display.set_mode((1400,700), 0, 32)
 pygame.display.set_caption('Tower defense')
 
 
-fundo= 'a definir'
+fundo= pygame.image.load("Saitama personagem.jpg").convert()
 
+personagem1 = Boneco('Saitama.jpg', (10),(10))
+personagem1_group = pygame.sprite.Group()
+personagem1_group.add(personagem1)
 pressed_keys=pygame.key.get_pressed()
-if pressed_keys[W]:
-   personagem1 = Boneco('a definir', (10),(10))
-   personagem1_group = pygame.sprite.Group()
-   personagem1_group.add(personagem1)
+if pressed_keys[K_w]:
+    saitama = personagem1
+    personagem1.ativa_boneco('Saitama personagem.jpg')
 
-torre1 = Torre('a definir',(10),(10))
+torre1 = Torre('Saitama.jpg',(10),(10))
 torre1_group= pygame.sprite.Group()
 torre1_group.add(torre1)
 
-torre2 = Torre('a definir',(1300),(10))
+torre2 = Torre('Saitama.jpg',(1300),(10))
 torre2_group= pygame.sprite.Group()
 torre2_group.add(torre2)
 
@@ -70,6 +72,8 @@ while rodando:
             rodando = False
             
     
-    boneco.move()
-    
-        
+    tela.blit(fundo, (0,0))
+    personagem1_group.draw(tela)
+    torre1_group.draw(tela)
+    torre2_group.draw(tela)
+    pygame.display.update()    

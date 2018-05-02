@@ -41,32 +41,26 @@ class Torre(pygame.sprite.Sprite):
 # início
     
 pygame.init()
-tela = pygame.display.set_mode((1400,700), 0, 32)
+tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
 
 
-fundo= pygame.image.load("Saitama personagem.jpg").convert()
+fundo= pygame.image.load("cenario.jpeg").convert()
 
-personagem1 = Boneco('Saitama.jpg', (10),(10))
+personagem1 = Boneco('Naruto.png', (30),(300))
 personagem1_group = pygame.sprite.Group()
-personagem1_group.add(personagem1)
-pressed_keys=pygame.key.get_pressed()
-if pressed_keys[K_w]:
-    saitama = personagem1
-    personagem1.ativa_boneco('Saitama personagem.jpg')
 
-torre1 = Torre('Saitama.jpg',(10),(10))
-torre1_group= pygame.sprite.Group()
-torre1_group.add(torre1)
 
-torre2 = Torre('Saitama.jpg',(1300),(10))
-torre2_group= pygame.sprite.Group()
-torre2_group.add(torre2)
+
 
 
 rodando = True
 while rodando:
-    
+    pressed_keys=pygame.key.get_pressed()
+    if pressed_keys[K_w]:
+        naruto = personagem1
+        personagem1.ativa_boneco('Naruto.png')
+        personagem1_group.add(personagem1)
     for event in pygame.event.get():
         if event.type == QUIT:
             rodando = False
@@ -74,6 +68,7 @@ while rodando:
     
     tela.blit(fundo, (0,0))
     personagem1_group.draw(tela)
-    torre1_group.draw(tela)
-    torre2_group.draw(tela)
-    pygame.display.update()    
+    
+    pygame.display.update()   
+
+pygame.display.quit()

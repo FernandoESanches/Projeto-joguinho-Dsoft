@@ -66,6 +66,9 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 personagem1 = Boneco('Naruto.png', 30,300)
 personagem_group = pygame.sprite.Group()
 
+personagem2 = Inimigo()
+personagem_group = pygame.sprite.Group()
+
 
 
 

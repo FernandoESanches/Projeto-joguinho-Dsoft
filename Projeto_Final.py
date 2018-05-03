@@ -63,7 +63,7 @@ pygame.display.set_caption('Tower defense')
 
 fundo= pygame.image.load("cenario.jpeg").convert()
 
-personagem1 = Boneco('goku.png', 10,150)
+personagem1 = Boneco('goku.png', 10,250)
 personagem_group = pygame.sprite.Group()
 inimigo1=Inimigo('Naruto.png',1100,351)
 inimigo_group=pygame.sprite.Group()

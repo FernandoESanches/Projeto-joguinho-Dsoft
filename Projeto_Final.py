@@ -82,9 +82,12 @@ while rodando:
     elif pressed_keys[K_q]:
         inimigo1.ativa_inimigo('Naruto.png')
         inimigo_group.add(inimigo1)
-    
-    personagem1.move(1)
-    inimigo1.move_inimigo(-1)
+    if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
+        personagem1.move(0)
+        inimigo1.move_inimigo(0)
+    else:
+        personagem1.move(1)
+        inimigo1.move_inimigo(-3)
     for event in pygame.event.get():
         if event.type == QUIT:
             rodando = False

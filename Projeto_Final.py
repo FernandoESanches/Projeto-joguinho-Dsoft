@@ -65,7 +65,7 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 personagem_group = pygame.sprite.Group()
 inimigo1=Inimigo('Naruto.png',1100,351)
 inimigo_group=pygame.sprite.Group()
-torre=Torre("鳥居.png", -100,100)
+torre=Torre("Torre.png", -100,100)
 torre_group=pygame.sprite.Group()
 torre_group.add(torre)
 
@@ -87,7 +87,8 @@ while rodando:
                 inimigo1.ativa_inimigo('Naruto.png')
                 inimigo_group.add(inimigo1)
     if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
-        personagem1.move(0)
+        for personagem in  personagem_group:
+            personagem1.move(0)
     else:
         for personagem in personagem_group:
             personagem.move(1)

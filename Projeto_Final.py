@@ -80,9 +80,9 @@ while rodando:
         if (event.type==pygame.KEYDOWN):
             pygame.key.get_repeat()
             if (event.key==pygame.K_w):
-                 personagem1 = Boneco('goku.png', 100,290)
-                 personagem1.ativa_boneco('goku.png')
-                 personagem_group.add(personagem1)
+                 Goku = Boneco('goku.png', 100,290)
+                 Goku.ativa_boneco('goku.png')
+                 personagem_group.add(Goku)
             elif (event.key==pygame.K_q):
                 inimigo1.ativa_inimigo('Naruto.png')
                 inimigo_group.add(inimigo1)

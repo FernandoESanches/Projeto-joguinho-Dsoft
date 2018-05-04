@@ -63,7 +63,7 @@ pygame.display.set_caption('Tower defense')
 
 fundo= pygame.image.load("cenario.jpeg").convert()
 
-personagem1 = Boneco('goku.png', 100,290)
+
 personagem_group = pygame.sprite.Group()
 inimigo1=Inimigo('Naruto.png',1100,351)
 inimigo_group=pygame.sprite.Group()
@@ -82,6 +82,7 @@ while rodando:
         if (event.type==pygame.KEYDOWN):
             pygame.key.get_repeat()
             if (event.key==pygame.K_w):
+                 personagem1 = Boneco('goku.png', 100,290)
                  personagem1.ativa_boneco('goku.png')
                  personagem_group.add(personagem1)
             elif (event.key==pygame.K_q):
@@ -90,7 +91,8 @@ while rodando:
     if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
         personagem1.move(0)
     else:
-        personagem1.move(1)
+        for personagem in personagem_group:
+            personagem.move(1)
     if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
         inimigo1.move_inimigo(0)
     else:

@@ -89,10 +89,13 @@ while rodando:
     for personagem in  personagem_group:
         if pygame.sprite.spritecollide(personagem,inimigo_group, False):
             personagem.move(0)
-            inimigo1.move_inimigo(0)
         else:
-            personagem.move(3)
-            inimigo1.move_inimigo(-3)        
+            personagem.move(3)    
+    for inimigo in inimigo_group:
+        if pygame.sprite.spritecollide(inimigo, personagem_group,False):
+            inimigo.move_inimigo(0)
+        else:
+            inimigo.move_inimigo(-2)
         
     tela.blit(fundo, (0,0))
     torre_group.draw(tela)

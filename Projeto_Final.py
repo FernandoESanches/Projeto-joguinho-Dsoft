@@ -86,16 +86,13 @@ while rodando:
             elif (event.key==pygame.K_q):
                 inimigo1.ativa_inimigo('Naruto.png')
                 inimigo_group.add(inimigo1)
-    if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
-        for personagem in  personagem_group:
-            personagem1.move(0)
-    else:
-        for personagem in personagem_group:
-            personagem.move(1)
-    if pygame.sprite.spritecollide(personagem1,inimigo_group, False):
-        inimigo1.move_inimigo(0)
-    else:
-        inimigo1.move_inimigo(-3)        
+    for personagem in  personagem_group:
+        if pygame.sprite.spritecollide(personagem,inimigo_group, False):
+            personagem.move(0)
+            inimigo1.move_inimigo(0)
+        else:
+            personagem.move(3)
+            inimigo1.move_inimigo(-3)        
         
     tela.blit(fundo, (0,0))
     torre_group.draw(tela)

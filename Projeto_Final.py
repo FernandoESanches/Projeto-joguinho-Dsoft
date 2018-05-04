@@ -1,4 +1,5 @@
 'Projeto de Desoft'
+#comandos iniciais vbaseados no jogo feito em sala: helloPongSpriteBase
 import pygame
 import sys
 from pygame.locals import *
@@ -28,9 +29,6 @@ class Torre(pygame.sprite.Sprite):
         self.rect=self.image.get_rect()
         self.rect.x=posx
         self.rect.y=posy
-        
-    def ativa_torre(self,imagem):
-        self.image=pygame.image.load(imagem)
     
     def Vida_torre(self,dano):
         vida = 10000

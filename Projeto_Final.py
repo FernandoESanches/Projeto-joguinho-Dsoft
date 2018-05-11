@@ -6,7 +6,7 @@ import sys
 from pygame.locals import *
 
 class Boneco(pygame.sprite.Sprite):
-    def __init__(self,lista_imagens):
+    def __init__(self,lista_imagens,posx,posy):
         pygame.sprite.Sprite.__init__(self)
         
         self.imagens=[]
@@ -14,7 +14,7 @@ class Boneco(pygame.sprite.Sprite):
             self.imagens.append(pygame.image.load(img))
         self.index=0
         self.image=self.imagens[self.index]
-        self.rect=pygame.Rect(5,280,120,120)
+        self.rect=pygame.Rect(posx,posy,120,120)
 
     def ativa_boneco(self, imagem):
         self.image=pygame.image.load(imagem)
@@ -47,22 +47,18 @@ class Torre(pygame.sprite.Sprite):
         vida -= dano
         
         return vida
-    
-class Inimigo(pygame.sprite.Sprite):
-    
-    def __init__(self, imagem, posx, posy):
-        pygame.sprite.Sprite.__init__(self)
-        
-        self.image = pygame.image.load(imagem)
-        self.rect=self.image.get_rect()
-        self.rect.x=posx
-        self.rect.y=posy
-    
-    def ativa_inimigo(self, imagem):
-        self.image = pygame.image.load(imagem)
-        
-    def move_inimigo(self, velocidade):
-        self.rect.x += velocidade
+def acao(grupo_amigo, grupo_inimigo,move1,move2,imagem,dano):
+    for personagem in grupo_amigo:
+        if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
+            personagem.move(move1)
+            personagem.ativa_boneco(imagem)
+            if personagem.vida<=0:
+                grupo_amigo.remove(personagem)
+        else:
+            personagem.move(move2)
+    for inimigo in grupo_inimigo:
+        if contador==2:
+            inimigo.vida-=dano    
 # início
     
 pygame.init()
@@ -76,7 +72,6 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 
 Goku_group = pygame.sprite.Group()
 Naruto_group=pygame.sprite.Group()
-inimigo1=Inimigo('Naruto.png',1100,351)
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
 torre_group=pygame.sprite.Group()
@@ -94,35 +89,23 @@ while rodando:
             rodando = False
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
-                 Goku = Boneco(['1.png','2.png'])
+                 Goku = Boneco(['1.png','2.png'],5,275)
                  Goku.ativa_boneco('1.png')
                  Goku.vida=100
                  Goku_group.add(Goku)
             elif (event.key==pygame.K_w):
-                 Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'])
+                 Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],1100,300)
                  Naruto.ativa_boneco('naruto1.png')
-                 Naruto.vida=100
+                 Naruto.vida=200
                  Naruto_group.add(Naruto)
             elif (event.key==pygame.K_z):
-                inimigo1.ativa_inimigo('Naruto.png')
-                inimigo_group.add(inimigo1)
-    for personagem in  Goku_group:
-        if pygame.sprite.spritecollide(personagem,inimigo_group, False):
-            personagem.move(0)
-            personagem.ativa_boneco('3.png')
-        else:
-            personagem.move(3)
-    for personagem in  Naruto_group:
-        if pygame.sprite.spritecollide(personagem,inimigo_group, False):
-            personagem.move(0)
-            personagem.ativa_boneco('naruto3.png')
-        else:
-            personagem.move(3)
-    for inimigo in inimigo_group:
-        if pygame.sprite.spritecollide(inimigo, Goku_group, False):
-            inimigo.move_inimigo(0)
-        else:
-            inimigo.move_inimigo(-2)
+                Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300)
+                Sasuke.ativa_boneco('sasuke1.png')
+                Sasuke.vida=200
+                inimigo_group.add(Sasuke)
+    acao(Goku_group,inimigo_group,0,3,'3.png',1)
+    acao(Naruto_group,inimigo_group,0,2,'naruto_parado.png',2)
+    acao(inimigo_group,Naruto_group or Goku_group,0,-2,'sasuke_parado.png',2) 
         
     tela.blit(fundo, (0,0))
     torre_group.draw(tela)

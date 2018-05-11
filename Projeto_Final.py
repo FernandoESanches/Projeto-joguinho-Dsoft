@@ -68,6 +68,8 @@ class Inimigo(pygame.sprite.Sprite):
 pygame.init()
 tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
+pygame.mixer.music.load('Música_pygame.mp3')
+pygame.mixer.music.play()
 
 
 fundo= pygame.image.load("cenario.jpeg").convert()
@@ -133,5 +135,5 @@ while rodando:
     inimigo_group.draw(tela)
  
     pygame.display.flip()   
-
+pygame.mixer.music.stop()
 pygame.display.quit()

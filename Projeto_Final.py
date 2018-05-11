@@ -148,7 +148,7 @@ while rodando:
                  Goku.vida=100
                  Goku_group.add(Goku)
             elif (event.key==pygame.K_w):
-                 Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],1100,300)
+                 Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370)
                  Naruto.ativa_boneco('naruto1.png')
                  Naruto.vida=200
                  Naruto_group.add(Naruto)

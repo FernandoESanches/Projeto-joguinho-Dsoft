@@ -59,6 +59,45 @@ def acao(grupo_amigo, grupo_inimigo,move1,move2,imagem,dano):
     for inimigo in grupo_inimigo:
         if contador==2:
             inimigo.vida-=dano    
+# classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
+cor_fundo = (255, 235, 215)
+cor_letra = (0,0,0)
+cinza = (200,200,200)
+class Botao():
+
+   def __init__(self, txt, location, action, bg=cor_fundo, fg=cor_letra, size=(50, 50), font_name="Comic sans", font_size=20):
+        self.color = bg  # the static (normal) color
+        self.bg = bg  # actual background color, can change on mouseover
+        self.fg = fg  # text color
+        self.size = size
+        self.font = pygame.font.SysFont(font_name, font_size)
+        self.txt = txt
+        self.txt_surf = self.font.render(self.txt, 1, self.fg)
+        self.txt_rect = self.txt_surf.get_rect(center=[s//2 for s in self.size])
+        self.surface = pygame.surface.Surface(size)
+        self.rect = self.surface.get_rect(center=location)
+        self.call_back_ = action
+
+   def draw(self,tela):
+       
+       self.surface.fill(self.bg)
+       self.surface.blit(self.txt_surf, self.txt_rect)
+       tela.blit(self.surface, self.rect)
+   def mouseover(self):
+        self.bg = self.color
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            self.bg = cinza  # mouseover color
+   def call_back(self):
+       self.call_back_()
+   def mousebuttondown(self):
+       pos = pygame.mouse.get_pos()
+       if self.rect.collidepoint(pos):
+          self.call_back()
+
+
+def clicou_start():
+     return
 # início
     
 pygame.init()
@@ -66,7 +105,22 @@ tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
 pygame.mixer.music.load('Música_pygame.mp3')
 pygame.mixer.music.play()
-
+tela_intro=pygame.image.load("cenario.jpeg").convert()
+start = Botao("Start",(1238/2, 491/2),clicou_start)
+rodando = True
+intro = True
+while intro:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            intro = False
+            rodando = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            start.mousebuttondown() 
+            intro = False
+    start.mouseover()       
+    tela.blit(tela_intro,(0,0))
+    start.draw(tela)
+    pygame.display.flip()
 
 fundo= pygame.image.load("cenario.jpeg").convert()
 

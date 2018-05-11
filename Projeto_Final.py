@@ -90,7 +90,7 @@ class Botao():
             self.bg = cinza  # mouseover color
    def call_back(self):
        self.call_back_()
-   def mousebuttondown(self):
+   def clique(self):
        pos = pygame.mouse.get_pos()
        if self.rect.collidepoint(pos):
           self.call_back()
@@ -115,7 +115,7 @@ while intro:
             intro = False
             rodando = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            start.mousebuttondown() 
+            start.clique() 
             intro = False
     start.mouseover()       
     tela.blit(tela_intro,(0,0))

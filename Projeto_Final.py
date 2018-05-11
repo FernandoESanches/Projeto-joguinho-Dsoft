@@ -166,6 +166,7 @@ while rodando:
     if contador==6:
         Goku_group.update()
         Naruto_group.update()
+        inimigo_group.update()
         contador=0
     Naruto_group.draw(tela)
     Goku_group.draw(tela)

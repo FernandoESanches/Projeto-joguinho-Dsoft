@@ -134,8 +134,9 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
+torre2 = Torre("Torre2.png", 795,50)
 torre_group=pygame.sprite.Group()
-torre_group.add(torre)
+torre_group.add(torre, torre2)
 
 rodando = True
 mana_max=300

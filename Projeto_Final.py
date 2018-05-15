@@ -4,7 +4,8 @@
 import pygame
 import sys
 from pygame.locals import *
-
+import random
+import numpy as np
 class Boneco(pygame.sprite.Sprite):
     def __init__(self,lista_imagens,posx,posy):
         pygame.sprite.Sprite.__init__(self)
@@ -142,12 +143,15 @@ rodando = True
 mana_max=300
 mana=0
 contador=0
+contador2=0
+wave = 0
 while rodando:
     if mana<=mana_max:
         mana+=1
     else:
         mana+=0
     contador+=1
+    contador2+=1
     relogio=pygame.time.Clock()
     tempo=relogio.tick(40)
 
@@ -169,11 +173,6 @@ while rodando:
                     Naruto.vida=100
                     todos_amigos.add(Naruto)
                     mana-=30
-            elif (event.key==pygame.K_z):
-                Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300)
-                Sasuke.ativa_boneco('sasuke1.png')
-                Sasuke.vida=200
-                inimigo_group.add(Sasuke)
 
             elif (event.key==pygame.K_m):
                 if mana>=50:
@@ -181,6 +180,18 @@ while rodando:
     
     acao(inimigo_group,todos_amigos,0,-4,5)
     acao(todos_amigos,inimigo_group,0,5,5)
+    x = random.randint(0,100)
+    if x > 50 and x < 75:
+        if contador2 == 5:
+            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300)
+            Sasuke.ativa_boneco('sasuke1.png')
+            Sasuke.vida=200
+            inimigo_group.add(Sasuke)
+    if contador2 == 15:
+        contador2 = 0
+        wave += 1
+    if wave == 10:
+        contador2 = 0
 
     tela.blit(fundo, (0,0))
     torre_group.draw(tela)

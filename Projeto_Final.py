@@ -65,7 +65,7 @@ cor_letra = (0,0,0)
 cinza = (200,200,200)
 class Botao():
 
-   def __init__(self, txt, location, action, bg=cor_fundo, fg=cor_letra, size=(50, 50), font_name="Comic sans", font_size=20):
+   def __init__(self, txt, location, bg=cor_fundo, fg=cor_letra, size=(50, 50), font_name="Comic sans", font_size=20):
         self.color = bg  # the static (normal) color
         self.bg = bg  # actual background color, can change on mouseover
         self.fg = fg  # text color
@@ -76,7 +76,7 @@ class Botao():
         self.txt_rect = self.txt_surf.get_rect(center=[s//2 for s in self.size])
         self.surface = pygame.surface.Surface(size)
         self.rect = self.surface.get_rect(center=location)
-        self.call_back_ = action
+       
 
    def draw(self,tela):
        
@@ -88,16 +88,14 @@ class Botao():
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             self.bg = cinza  # mouseover color
-   def call_back(self):
-       self.call_back_()
+
    def clique(self):
-       pos = pygame.mouse.get_pos()
-       if self.rect.collidepoint(pos):
-          self.call_back()
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            return True
+        return False
 
 
-def clicou_start():
-     return
 # início
     
 pygame.init()
@@ -106,7 +104,7 @@ pygame.display.set_caption('Tower defense')
 pygame.mixer.music.load('Música_pygame.mp3')
 pygame.mixer.music.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
-start = Botao("Start",(1238/2, 491/2),clicou_start)
+start = Botao("Start",(1238/2, 491/2))
 rodando = True
 intro = True
 while intro:
@@ -115,8 +113,9 @@ while intro:
             intro = False
             rodando = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            start.clique() 
-            intro = False
+            clicou = start.clique() 
+            if clicou:
+                intro = False
     start.mouseover()       
     tela.blit(tela_intro,(0,0))
     start.draw(tela)
@@ -131,7 +130,7 @@ torre=Torre("Torre.png", -100,100)
 torre_group=pygame.sprite.Group()
 torre_group.add(torre)
 
-rodando = True
+
 contador=0
 while rodando:
     contador+=1

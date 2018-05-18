@@ -117,6 +117,7 @@ pygame.mixer.music.load('Música_pygame.mp3')
 pygame.mixer.music.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
 start = Botao("Start",(1238/2, 491/2))
+fonte = myfont = pygame.font.SysFont("monospace", 50)
 
 intro = True
 while intro:
@@ -144,7 +145,7 @@ torre2.vida(2000)
 inimigo_group.add(torre2)
 todos_amigos.add(torre)
 
-rodando = True
+
 mana_max=300
 mana=0
 vel_mana=1
@@ -203,8 +204,11 @@ while rodando:
         wave += 1
     if wave == 10:
         contador2 = 0
-
-    tela.blit(fundo, (0,0))
+# printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
+    manatexto = fonte.render("Mana:  {0}".format(int(mana)), 5, (250,250,250))   
+    tela.blit(fundo, (0,0))   
+    tela.blit(manatexto, (5, 10))
+    
     if contador==5:
         todos_amigos.update()
         inimigo_group.update()

@@ -51,9 +51,10 @@ class Torre(pygame.sprite.Sprite):
         self.vida=life
         
 def acao(grupo_amigo, grupo_inimigo,move1,move2,dano):
-    for personagem in grupo_amigo:
+     for personagem in grupo_amigo:
         if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
-            personagem.move(move1)
+            if personagem!=torre and personagem!=torre2:
+                personagem.move(move1)
             try:
                 if personagem==Goku:
                     personagem.ativa_boneco('3.png')
@@ -63,11 +64,13 @@ def acao(grupo_amigo, grupo_inimigo,move1,move2,dano):
                     personagem.ativa_boneco('sasuke_parado.png')
             except NameError:
                 True
-            personagem.tira_vida(grupo_inimigo,personagem,dano)
+            if personagem!=torre and personagem!=torre2:
+                personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
         else:
-            personagem.move(move2)
+            if personagem!=torre and personagem!=torre2:
+                personagem.move(move2)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -135,9 +138,11 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
+torre.vida(200)
 torre2 = Torre("Torre2.png", 795,50)
-torre_group=pygame.sprite.Group()
-torre_group.add(torre, torre2)
+torre2.vida(2000)
+inimigo_group.add(torre2)
+todos_amigos.add(torre)
 
 rodando = True
 mana_max=300
@@ -194,14 +199,24 @@ while rodando:
         contador2 = 0
 
     tela.blit(fundo, (0,0))
-    torre_group.draw(tela)
     if contador==5:
         todos_amigos.update()
         inimigo_group.update()
         contador=0
-    todos_amigos.draw(tela)
     inimigo_group.draw(tela)
- 
-    pygame.display.flip()   
-pygame.mixer.music.stop()
+    todos_amigos.draw(tela)
+    pygame.display.flip()
+    if torre.vida<=0:
+        fundo= pygame.image.load("gameover.jpg").convert()
+        inimigo_group=pygame.sprite.Group()
+        todos_amigos=pygame.sprite.Group()
+        pygame.display.update()
+        pygame.mixer.music.stop()
+        if (event.type==pygame.KEYDOWN):
+            if event.key==K_ESCAPE:
+                rodando=False
+            elif event.key==K_BACKSPACE:
+                intro=True
+            else:
+                True
 pygame.display.quit()

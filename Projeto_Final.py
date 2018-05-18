@@ -53,6 +53,8 @@ class Torre(pygame.sprite.Sprite):
 def acao(grupo_amigo, grupo_inimigo,move1,move2,dano):
      for personagem in grupo_amigo:
         if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
+            punch = pygame.mixer.Sound('smack.wav')
+            punch.play()
             if personagem!=torre and personagem!=torre2:
                 personagem.move(move1)
             try:
@@ -113,8 +115,8 @@ class Botao():
 pygame.init()
 tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
-pygame.mixer.music.load('Música_pygame.mp3')
-pygame.mixer.music.play()
+Música_pygame = pygame.mixer.Sound('Musica_pygame.wav')
+Música_pygame.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
 start = Botao("Start",(1238/2, 491/2))
 fonte = myfont = pygame.font.SysFont("monospace", 50)
@@ -207,9 +209,14 @@ while rodando:
     if wave == 10:
         contador2 = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
-    manatexto = fonte.render("Mana:  {0}".format(int(mana)), 5, (250,250,250))   
-    tela.blit(fundo, (0,0))   
+    manatexto = fonte.render("Mana:  {0}".format(int(mana)), 5, (250,250,250))
+    tela.blit(fundo, (0,0))
     tela.blit(manatexto, (5, 10))
+    telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')
+    tela.blit(telinha_goku,(330,0))
+    if mana >= 50:
+        telinha_goku = pygame.image.load('cara_goku.jpg')
+        tela.blit(telinha_goku,(330,0))
     
     if contador==5:
         todos_amigos.update()
@@ -254,4 +261,4 @@ while rodando:
                 True
     pygame.display.flip()
 pygame.display.quit()
-pygame.mixer.music.stop()
+Música_pygame.stop()

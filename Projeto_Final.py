@@ -217,7 +217,7 @@ while rodando:
         contador=0
     inimigo_group.draw(tela)
     todos_amigos.draw(tela)
-    pygame.display.flip()
+    
     if torre.vida<=0:
         mana=0
         mana+=0   
@@ -226,7 +226,7 @@ while rodando:
         fundo= pygame.image.load("gameover.jpg").convert()
         inimigo_group=pygame.sprite.Group()
         todos_amigos=pygame.sprite.Group()
-        pygame.display.update()
+        tela.blit(fundo,(0,0))
         pygame.mixer.music.stop()
         if (event.type==pygame.KEYDOWN):
             if event.key==K_ESCAPE:
@@ -235,5 +235,23 @@ while rodando:
                 intro=True
             else:
                 True
+    if torre2.vida<=0:
+        mana=0
+        mana+=0   
+        vel_mana=0
+        vel_mana+=0
+        fundo= pygame.image.load("youwin.jpg").convert()
+        inimigo_group=pygame.sprite.Group()
+        todos_amigos=pygame.sprite.Group()
+        tela.blit(fundo,(0,0))
+        pygame.mixer.music.stop()
+        if (event.type==pygame.KEYDOWN):
+            if event.key==K_ESCAPE:
+                rodando=False
+            elif event.key==K_BACKSPACE:
+                intro=True
+            else:
+                True
+    pygame.display.flip()
 pygame.display.quit()
 pygame.mixer.music.stop()

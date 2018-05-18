@@ -118,7 +118,7 @@ pygame.mixer.music.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
 start = Botao("Start",(1238/2, 491/2))
 fonte = myfont = pygame.font.SysFont("monospace", 50)
-
+rodando = True
 intro = True
 while intro:
     for event in pygame.event.get():

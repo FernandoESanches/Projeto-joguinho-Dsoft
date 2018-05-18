@@ -147,6 +147,7 @@ todos_amigos.add(torre)
 
 
 mana_max=300
+limite=800
 mana=0
 vel_mana=1
 contador=0
@@ -183,12 +184,13 @@ while rodando:
 
             elif (event.key==pygame.K_m):
                 if mana>=50:
-                    mana_max+=100
-                    mana-=50
-                    if vel_mana<=1.5:
-                        vel_mana+=0.1
-                    else:
-                        vel_mana+=0
+                    if mana_max<=limite:
+                        mana_max+=100
+                        mana-=50
+                if vel_mana<=1.5:
+                    vel_mana+=0.1
+                else:
+                    vel_mana+=0
     
     acao(inimigo_group,todos_amigos,0,-4,5)
     acao(todos_amigos,inimigo_group,0,5,5)
@@ -217,6 +219,10 @@ while rodando:
     todos_amigos.draw(tela)
     pygame.display.flip()
     if torre.vida<=0:
+        mana=0
+        mana+=0   
+        vel_mana=0
+        vel_mana+=0
         fundo= pygame.image.load("gameover.jpg").convert()
         inimigo_group=pygame.sprite.Group()
         todos_amigos=pygame.sprite.Group()

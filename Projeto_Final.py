@@ -249,7 +249,7 @@ while rodando:
                 True
     if torre2.vida<=0:
         mana=0
-        mana+=0   
+        mana+=0
         vel_mana=0
         vel_mana+=0
         fundo= pygame.image.load("youwin.jpg").convert()

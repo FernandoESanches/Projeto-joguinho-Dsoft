@@ -220,3 +220,4 @@ while rodando:
             else:
                 True
 pygame.display.quit()
+pygame.mixer.music.stop()

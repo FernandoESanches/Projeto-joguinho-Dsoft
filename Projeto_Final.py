@@ -147,12 +147,13 @@ todos_amigos.add(torre)
 rodando = True
 mana_max=300
 mana=0
+vel_mana=1
 contador=0
 contador2=0
 wave = 0
 while rodando:
     if mana<=mana_max:
-        mana+=1
+        mana+=vel_mana
     else:
         mana+=0
     contador+=1
@@ -181,7 +182,12 @@ while rodando:
 
             elif (event.key==pygame.K_m):
                 if mana>=50:
-                    maximo+=100
+                    mana_max+=100
+                    mana-=50
+                    if vel_mana<=1.5:
+                        vel_mana+=0.1
+                    else:
+                        vel_mana+=0
     
     acao(inimigo_group,todos_amigos,0,-4,5)
     acao(todos_amigos,inimigo_group,0,5,5)

@@ -213,10 +213,15 @@ while rodando:
     tela.blit(fundo, (0,0))
     tela.blit(manatexto, (5, 10))
     telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')
+    telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
     tela.blit(telinha_goku,(330,0))
+    tela.blit(telinha_naruto,(450,0))
     if mana >= 50:
         telinha_goku = pygame.image.load('cara_goku.jpg')
         tela.blit(telinha_goku,(330,0))
+    if mana >= 30:
+        telinha_naruto = pygame.image.load('naruto_rosto.jpg')
+        tela.blit(telinha_naruto,(450,0))
     
     if contador==5:
         todos_amigos.update()

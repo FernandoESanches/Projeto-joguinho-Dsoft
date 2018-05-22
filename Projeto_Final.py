@@ -183,10 +183,13 @@ mana=0
 vel_mana=1
 contador=0
 contador2=0
+valor_da_mana=50
 wave = 0
 while rodando:
     if mana<=mana_max:
         mana+=vel_mana
+        if mana>mana_max:
+            mana=mana_max
     else:
         mana+=0
     contador+=1
@@ -213,14 +216,12 @@ while rodando:
                     mana-=30
 
             elif (event.key==pygame.K_m):
-                if mana>=50:
+                if mana>=valor_da_mana:
                     if mana_max<=limite:
                         mana_max+=100
-                        mana-=50
-                if vel_mana<=1.5:
-                    vel_mana+=0.1
-                else:
-                    vel_mana+=0
+                        vel_mana+=0.1
+                        mana-=valor_da_mana
+                        valor_da_mana+=10
     
     acao(inimigo_group,todos_amigos,0,-4,5)
     acao(todos_amigos,inimigo_group,0,5,5)

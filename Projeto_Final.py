@@ -7,7 +7,7 @@ from pygame.locals import *
 import random
 import numpy as np
 class Boneco(pygame.sprite.Sprite):
-    def __init__(self,lista_imagens,posx,posy):
+    def __init__(self,lista_imagens,posx,posy,tipo):
         pygame.sprite.Sprite.__init__(self)
         
         self.imagens=[]
@@ -16,6 +16,7 @@ class Boneco(pygame.sprite.Sprite):
         self.index=0
         self.image=self.imagens[self.index]
         self.rect=pygame.Rect(posx,posy,120,120)
+        self.tipo=tipo
 
     def ativa_boneco(self, imagem):
         self.image=pygame.image.load(imagem)
@@ -57,15 +58,15 @@ def acao(grupo_amigo, grupo_inimigo,move1,move2,dano):
             punch.play()
             if personagem!=torre and personagem!=torre2:
                 personagem.move(move1)
-            try:
-                if personagem==Goku:
-                    personagem.ativa_boneco('3.png')
-                elif personagem==Naruto:
-                    personagem.ativa_boneco('naruto_parado.png')
-                elif personagem==Sasuke:
-                    personagem.ativa_boneco('sasuke_parado.png')
-            except NameError:
-                True
+                try:
+                    if personagem.tipo=='Goku':
+                        personagem.ativa_boneco('3.png')
+                    elif personagem.tipo=='Naruto':
+                        personagem.ativa_boneco('naruto_parado.png')
+                    elif personagem.tipo=='Sasuke':
+                        personagem.ativa_boneco('sasuke_parado.png')
+                except NameError:
+                    True
             if personagem!=torre and personagem!=torre2:
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
@@ -199,14 +200,14 @@ while rodando:
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
                 if mana>=50:
-                    Goku = Boneco(['1.png','2.png'],5,275)
+                    Goku = Boneco(['1.png','2.png'],5,275,'Goku')
                     Goku.vida=100
                     todos_amigos.add(Goku)
                     mana-=50
 
             elif (event.key==pygame.K_w):
                 if mana>=30:
-                    Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370)
+                    Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto')
                     Naruto.vida=100
                     todos_amigos.add(Naruto)
                     mana-=30
@@ -228,7 +229,7 @@ while rodando:
     x = random.randint(0,100)
     if x > 50 and x < 75:
         if contador2 == 5:
-            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300)
+            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
             Sasuke.ativa_boneco('sasuke1.png')
             Sasuke.vida=200
             inimigo_group.add(Sasuke)

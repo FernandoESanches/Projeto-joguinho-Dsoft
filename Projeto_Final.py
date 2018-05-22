@@ -79,7 +79,7 @@ cor_letra = (0,0,0)
 cinza = (200,200,200)
 class Botao():
 
-   def __init__(self, txt, location, bg=cor_fundo, fg=cor_letra, size=(50, 50), font_name="Comic sans", font_size=20):
+   def __init__(self, txt, location, bg=cor_fundo, fg=cor_letra, size=(100, 50), font_name="Comic sans", font_size=20):
         self.color = bg  # the static (normal) color
         self.bg = bg  # actual background color, can change on mouseover
         self.fg = fg  # text color
@@ -119,22 +119,50 @@ Música_pygame = pygame.mixer.Sound('Musica_pygame.wav')
 Música_pygame.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
 start = Botao("Start",(1238/2, 491/2))
+tela_tutorial = pygame.image.load("Tuto2.png").convert()
+tutorial = Botao("Tutorial",(1238/2, 400))
 fonte = myfont = pygame.font.SysFont("monospace", 30)
 rodando = True
 intro = True
-while intro:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            intro = False
-            rodando = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            clicou = start.clique() 
-            if clicou:
+pré_jogo = True
+while pré_jogo:
+    while intro:
+        for event in pygame.event.get():
+            if event.type == QUIT:
                 intro = False
-    start.mouseover()       
-    tela.blit(tela_intro,(0,0))
-    start.draw(tela)
-    pygame.display.flip()
+                pré_jogo=False
+                rodando = False
+                tuto = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                clicou = start.clique() 
+                clicou2 = tutorial.clique()
+                if clicou :
+                    intro = False
+                    pré_jogo = False
+                    tuto = False
+                elif clicou2 :
+                    intro = False
+                    tuto = True
+        tutorial.mouseover()
+        start.mouseover()       
+        tela.blit(tela_intro,(0,0))
+        start.draw(tela)
+        tutorial.draw(tela)
+        pygame.display.flip()
+    
+    while tuto :
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pré_jogo = False
+                rodando = False
+                tuto = False
+            elif (event.type ==pygame.KEYDOWN):
+                if (event.key ==pygame.K_z):
+                    tuto = False
+                    intro = True
+        tela.blit(tela_tutorial,(0,0))
+        pygame.display.flip()
+
 
 fundo= pygame.image.load("cenario.jpeg").convert()
 

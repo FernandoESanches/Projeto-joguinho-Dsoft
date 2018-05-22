@@ -211,18 +211,20 @@ while rodando:
         contador2 = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
     manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
+    quadro=pygame.image.load('quadro.jpg')
     tela.blit(fundo, (0,0))
-    tela.blit(manatexto, (5, 10))
+    tela.blit(quadro,(0,0))
+    tela.blit(manatexto, (20, 20))
     telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')
     telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
-    tela.blit(telinha_goku,(330,0))
-    tela.blit(telinha_naruto,(450,0))
+    tela.blit(telinha_goku,(320,0))
+    tela.blit(telinha_naruto,(402,0))
     if mana >= 50:
         telinha_goku = pygame.image.load('cara_goku.jpg')
-        tela.blit(telinha_goku,(330,0))
+        tela.blit(telinha_goku,(320,0))
     if mana >= 30:
         telinha_naruto = pygame.image.load('naruto_rosto.jpg')
-        tela.blit(telinha_naruto,(450,0))
+        tela.blit(telinha_naruto,(402,0))
     
     if contador==5:
         todos_amigos.update()

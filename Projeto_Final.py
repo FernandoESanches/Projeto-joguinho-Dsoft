@@ -119,7 +119,7 @@ Música_pygame = pygame.mixer.Sound('Musica_pygame.wav')
 Música_pygame.play()
 tela_intro=pygame.image.load("cenario.jpeg").convert()
 start = Botao("Start",(1238/2, 491/2))
-fonte = myfont = pygame.font.SysFont("monospace", 50)
+fonte = myfont = pygame.font.SysFont("monospace", 30)
 rodando = True
 intro = True
 while intro:
@@ -210,7 +210,7 @@ while rodando:
     if wave == 10:
         contador2 = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
-    manatexto = fonte.render("Mana:  {0}".format(int(mana)), 5, (250,250,250))
+    manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
     tela.blit(fundo, (0,0))
     tela.blit(manatexto, (5, 10))
     telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')

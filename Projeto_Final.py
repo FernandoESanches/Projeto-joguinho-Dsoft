@@ -141,13 +141,13 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
-torre.vida(200)
+torre.vida(2000)
 torre2 = Torre("Torre2.png", 975,105)
 torre2.vida(2000)
 inimigo_group.add(torre2)
 todos_amigos.add(torre)
 
-
+#Controle de mana
 mana_max=300
 limite=800
 mana=0
@@ -172,14 +172,13 @@ while rodando:
             if (event.key==pygame.K_q):
                 if mana>=50:
                     Goku = Boneco(['1.png','2.png'],5,275)
-                    Goku.ativa_boneco('1.png')
                     Goku.vida=100
                     todos_amigos.add(Goku)
                     mana-=50
+
             elif (event.key==pygame.K_w):
                 if mana>=30:
                     Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370)
-                    Naruto.ativa_boneco('naruto1.png')
                     Naruto.vida=100
                     todos_amigos.add(Naruto)
                     mana-=30
@@ -196,6 +195,8 @@ while rodando:
     
     acao(inimigo_group,todos_amigos,0,-4,5)
     acao(todos_amigos,inimigo_group,0,5,5)
+
+    #Wave 
     x = random.randint(0,100)
     if x > 50 and x < 75:
         if contador2 == 5:
@@ -230,40 +231,21 @@ while rodando:
     inimigo_group.draw(tela)
     todos_amigos.draw(tela)
     
-    if torre.vida<=0:
-        mana=0
-        mana+=0   
-        vel_mana=0
-        vel_mana+=0
-        fundo= pygame.image.load("gameover.jpg").convert()
-        inimigo_group=pygame.sprite.Group()
-        todos_amigos=pygame.sprite.Group()
-        tela.blit(fundo,(0,0))
-        pygame.mixer.music.stop()
-        if (event.type==pygame.KEYDOWN):
-            if event.key==K_ESCAPE:
-                rodando=False
-            elif event.key==K_BACKSPACE:
-                intro=True
-            else:
-                True
-    if torre2.vida<=0:
-        mana=0
-        mana+=0
-        vel_mana=0
-        vel_mana+=0
-        fundo= pygame.image.load("youwin.jpg").convert()
-        inimigo_group=pygame.sprite.Group()
-        todos_amigos=pygame.sprite.Group()
-        tela.blit(fundo,(0,0))
-        pygame.mixer.music.stop()
-        if (event.type==pygame.KEYDOWN):
-            if event.key==K_ESCAPE:
-                rodando=False
-            elif event.key==K_BACKSPACE:
-                intro=True
-            else:
-                True
+    def fim(torre,imagem):
+        if torre.vida<=0:
+            fundo= pygame.image.load(imagem).convert()
+            inimigo_group=pygame.sprite.Group()
+            todos_amigos=pygame.sprite.Group()
+            tela.blit(fundo,(0,0))
+            pygame.mixer.music.stop()
+            if (event.type==pygame.KEYDOWN):
+                if event.key==K_ESCAPE:
+                    rodando=False
+                else:
+                    True
+    fim(torre,"gameover.jpg")
+    fim(torre2,"youwin.jpg")
+   
     pygame.display.flip()
 pygame.display.quit()
 Música_pygame.stop()

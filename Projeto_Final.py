@@ -29,7 +29,11 @@ class Boneco(pygame.sprite.Sprite):
         if self.index>=len(self.imagens):
             self.index=0
         self.image=self.imagens[self.index]
-                    
+
+    def altera_boneco(self,lista_imagens):
+        self.imagens=[]
+        for imagem in lista_imagens:
+            self.imagens.append(pygame.image.load(imagem))             
 
     def vida(self,life):
         self.vida=life
@@ -51,36 +55,43 @@ class Torre(pygame.sprite.Sprite):
     def vida(self,life):
         self.vida=life
         
-def acao(grupo_amigo, grupo_inimigo,move1,move2,dano):
+def acao(grupo_amigo, grupo_inimigo):
      for personagem in grupo_amigo:
         if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
             if personagem!=torre and personagem!=torre2:
-                personagem.move(move1)
-                try:
-                    if personagem.tipo=='Goku':
-                        personagem.ativa_boneco('3.png')
-                    elif personagem.tipo=='Naruto':
-                        personagem.ativa_boneco('naruto_parado.png')
-                    elif personagem.tipo=='Sasuke':
-                        personagem.ativa_boneco('sasuke_parado.png')
-                except NameError:
-                    True
-            if personagem!=torre and personagem!=torre2:
+                personagem.move(0)
+                if personagem.tipo=='Goku':
+                    personagem.altera_boneco(['1.png','3.png'])
+                    dano=5
+                elif personagem.tipo=='Naruto':
+                    personagem.altera_boneco(['naruto_1.png','naruto_3.png','naruto_5.png',\
+                                                'naruto_7.png','naruto_9.png','naruto_11.png','naruto_13.png',\
+                                                'naruto_15.png'])
+                    dano=30
+                elif personagem.tipo=='Sasuke':
+                    personagem.ativa_boneco('sasuke_parado.png')
+                    dano=10
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
         else:
             if personagem!=torre and personagem!=torre2:
-                personagem.move(move2)
+                if personagem.tipo=='Goku':
+                    personagem.move(7)
+                elif personagem.tipo=='Naruto':
+                    personagem.altera_boneco(['naruto1.png','naruto2.png','naruto3.png'])
+                    personagem.move(3)
+                elif personagem.tipo=='Sasuke':
+                    personagem.move(-4)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
 cinza = (200,200,200)
 class Botao():
 
-   def __init__(self, txt, location, bg=cor_fundo, fg=cor_letra, size=(100, 50), font_name="Comic sans", font_size=20):
+    def __init__(self, txt, location, bg=cor_fundo, fg=cor_letra, size=(100, 50), font_name="Comic sans", font_size=20):
         self.color = bg  # the static (normal) color
         self.bg = bg  # actual background color, can change on mouseover
         self.fg = fg  # text color
@@ -93,18 +104,18 @@ class Botao():
         self.rect = self.surface.get_rect(center=location)
        
 
-   def draw(self,tela):
-       
+    def draw(self,tela):
        self.surface.fill(self.bg)
        self.surface.blit(self.txt_surf, self.txt_rect)
        tela.blit(self.surface, self.rect)
-   def mouseover(self):
+
+    def mouseover(self):
         self.bg = self.color
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             self.bg = cinza  # mouseover color
 
-   def clique(self):
+    def clique(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             return True
@@ -170,9 +181,9 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
-torre.vida(2000)
+torre.vida(20000)
 torre2 = Torre("Torre2.png", 975,105)
-torre2.vida(2000)
+torre2.vida(20000  )
 inimigo_group.add(torre2)
 todos_amigos.add(torre)
 
@@ -183,6 +194,7 @@ mana=0
 vel_mana=1
 contador=0
 contador2=0
+contador3=0
 valor_da_mana=50
 wave = 0
 while rodando:
@@ -194,6 +206,7 @@ while rodando:
         mana+=0
     contador+=1
     contador2+=1
+    contador3+=1
     relogio=pygame.time.Clock()
     tempo=relogio.tick(40)
 
@@ -202,18 +215,18 @@ while rodando:
             rodando = False
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
-                if mana>=50:
+                if mana>=40:
                     Goku = Boneco(['1.png','2.png'],5,275,'Goku')
-                    Goku.vida=100
+                    Goku.vida=600
                     todos_amigos.add(Goku)
-                    mana-=50
+                    mana-=40
 
             elif (event.key==pygame.K_w):
-                if mana>=30:
+                if mana>=100:
                     Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto')
-                    Naruto.vida=100
+                    Naruto.vida=2000
                     todos_amigos.add(Naruto)
-                    mana-=30
+                    mana-=100
 
             elif (event.key==pygame.K_m):
                 if mana>=valor_da_mana:
@@ -223,16 +236,15 @@ while rodando:
                         mana-=valor_da_mana
                         valor_da_mana+=10
     
-    acao(inimigo_group,todos_amigos,0,-4,5)
-    acao(todos_amigos,inimigo_group,0,5,5)
+    acao(inimigo_group,todos_amigos)
+    acao(todos_amigos,inimigo_group)
 
     #Wave 
     x = random.randint(0,100)
     if x > 50 and x < 75:
         if contador2 == 5:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
-            Sasuke.ativa_boneco('sasuke1.png')
-            Sasuke.vida=200
+            Sasuke.vida=5000
             inimigo_group.add(Sasuke)
     if contador2 == 15:
         contador2 = 0
@@ -249,18 +261,20 @@ while rodando:
     telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
     tela.blit(telinha_goku,(320,0))
     tela.blit(telinha_naruto,(402,0))
-    if mana >= 50:
+    if mana >= 40:
         telinha_goku = pygame.image.load('cara_goku.jpg')
         tela.blit(telinha_goku,(320,0))
-    if mana >= 30:
+    if mana >= 100:
         telinha_naruto = pygame.image.load('naruto_rosto.jpg')
         tela.blit(telinha_naruto,(402,0))
     
-    if contador==5:
-        todos_amigos.update()
+    if contador==2:
         inimigo_group.update()
         contador=0
     inimigo_group.draw(tela)
+    if contador3==1:
+        todos_amigos.update()
+        contador3=0
     todos_amigos.draw(tela)
     
     def fim(torre,imagem):

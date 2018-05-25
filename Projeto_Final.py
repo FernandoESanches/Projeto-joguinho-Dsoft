@@ -66,12 +66,13 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.altera_boneco(['1.png','3.png'])
                     dano=5
                 elif personagem.tipo=='Naruto':
-                    personagem.altera_boneco(['naruto_1.png','naruto_3.png','naruto_5.png',\
-                                                'naruto_7.png','naruto_9.png','naruto_11.png','naruto_13.png',\
-                                                'naruto_15.png'])
+                    personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
+                                                'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
+                                                'naruto_8.png'])
                     dano=30
                 elif personagem.tipo=='Sasuke':
-                    personagem.ativa_boneco('sasuke_parado.png')
+                    personagem.altera_boneco(['chidori_1.png','chidori_2.png','chidori_3.png','chidori_4.png','chidori_5.png',\
+                                            'chidori_6.png','chidori_7.png','chidori_8.png'])
                     dano=10
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
@@ -79,11 +80,13 @@ def acao(grupo_amigo, grupo_inimigo):
         else:
             if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
+                    personagem.altera_boneco(['1.png','2.png'])
                     personagem.move(7)
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto1.png','naruto2.png','naruto3.png'])
                     personagem.move(3)
                 elif personagem.tipo=='Sasuke':
+                    personagem.altera_boneco(['sasuke1.png','sasuke2.png','sasuke3.png'])
                     personagem.move(-4)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)

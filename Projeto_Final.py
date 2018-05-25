@@ -81,13 +81,13 @@ def acao(grupo_amigo, grupo_inimigo):
             if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['1.png','2.png'])
-                    personagem.move(7)
+                    personagem.move(4)
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto1.png','naruto2.png','naruto3.png'])
-                    personagem.move(3)
+                    personagem.move(5)
                 elif personagem.tipo=='Sasuke':
                     personagem.altera_boneco(['sasuke1.png','sasuke2.png','sasuke3.png'])
-                    personagem.move(-4)
+                    personagem.move(-5)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -193,7 +193,7 @@ todos_amigos.add(torre)
 #Controle de mana
 mana_max=300
 limite=800
-mana=0
+mana=100
 vel_mana=1
 contador=0
 contador2=0
@@ -271,7 +271,7 @@ while rodando:
         telinha_naruto = pygame.image.load('naruto_rosto.jpg')
         tela.blit(telinha_naruto,(402,0))
     
-    if contador==2:
+    if contador==1:
         inimigo_group.update()
         contador=0
     inimigo_group.draw(tela)

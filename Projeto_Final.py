@@ -226,7 +226,7 @@ while rodando:
             if (event.key==pygame.K_q):
                 if mana>=40:
                     Goku = Boneco(['1.png','2.png'],5,275,'Goku')
-                    Goku.vida=600
+                    Goku.vida=2500
                     todos_amigos.add(Goku)
                     mana-=40
 
@@ -239,11 +239,11 @@ while rodando:
 
             elif (event.key==pygame.K_m):
                 if mana>=valor_da_mana:
-                    if mana_max<=limite:
+                    if mana_max<limite:
                         mana_max+=100
-                        vel_mana+=0.1
+                        vel_mana+=0.3
                         mana-=valor_da_mana
-                        valor_da_mana+=10
+                        valor_da_mana+=30
     
     acao(inimigo_group,todos_amigos)
     acao(todos_amigos,inimigo_group)
@@ -277,15 +277,17 @@ while rodando:
     tela.blit(telinha_goku,(320,0))
     tela.blit(telinha_naruto,(402,0))
     tela.blit(telinha_mana,(485,0))
-    if mana >= 40:
-        telinha_goku = pygame.image.load('cara_goku.jpg')
-        tela.blit(telinha_goku,(320,0))
-    if mana >= 100:
-        telinha_naruto = pygame.image.load('naruto_rosto.jpg')
-        tela.blit(telinha_naruto,(402,0))
-    if mana >= valor_da_mana:
-        telinha_mana = pygame.image.load('crystal_pixel_mana.png')
-        tela.blit(telinha_mana,(485,0))
+    
+    #Cooldown dos personagens
+    def cooldown(mana_min, imagem,posicao):
+        if mana >= mana_min:
+            telinha = pygame.image.load(imagem)
+            tela.blit(telinha,posicao)
+    cooldown(40,"cara_goku.jpg",(320,0))
+    cooldown(100,"naruto_rosto.jpg",(402,0))
+    cooldown(valor_da_mana,'crystal_pixel_mana.png',(484,0))
+    
+    #Tempo para dar o update
     if contador==1:
         inimigo_group.update()
         contador=0

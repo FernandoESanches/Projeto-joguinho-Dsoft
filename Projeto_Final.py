@@ -66,25 +66,34 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.altera_boneco(['1.png','3.png'])
                     dano=5
                 elif personagem.tipo=='Naruto':
-                    personagem.altera_boneco(['naruto_1.png','naruto_3.png','naruto_5.png',\
-                                                'naruto_7.png','naruto_9.png','naruto_11.png','naruto_13.png',\
-                                                'naruto_15.png'])
-                    dano=30
+                    personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
+                                                'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
+                                                'naruto_8.png'])
+                    dano=40
                 elif personagem.tipo=='Sasuke':
-                    personagem.ativa_boneco('sasuke_parado.png')
+                    personagem.altera_boneco(['chidori_1.png','chidori_2.png','chidori_3.png','chidori_4.png','chidori_5.png',\
+                                            'chidori_6.png','chidori_7.png','chidori_8.png'])
+                    dano=30
+                elif personagem.tipo=='Ed':
+                    personagem.altera_boneco(['ed1.png','ed2.png','ed3.png','ed4.png','ed5.png','ed6.png','ed7.png','ed8.png'])
                     dano=10
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
         else:
-            if personagem!=torre and personagem!=torre2:
+             if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
-                    personagem.move(7)
+                    personagem.altera_boneco(['1.png','2.png'])
+                    personagem.move(4)
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto1.png','naruto2.png','naruto3.png'])
-                    personagem.move(3)
+                    personagem.move(5)
                 elif personagem.tipo=='Sasuke':
-                    personagem.move(-4)
+                    personagem.altera_boneco(['sasuke1.png','sasuke2.png','sasuke3.png'])
+                    personagem.move(-5)
+                elif personagem.tipo=='Ed':
+                    personagem.altera_boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'])
+                    personagem.move(-6)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -241,11 +250,16 @@ while rodando:
 
     #Wave 
     x = random.randint(0,100)
-    if x > 50 and x < 75:
-        if contador2 == 5:
+    if x > 65 and x < 75:
+        if contador2 == 4:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
-            Sasuke.vida=5000
+            Sasuke.vida=2000
             inimigo_group.add(Sasuke)
+    elif x > 10 and x < 40:
+        if contador == 5:
+            Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed')
+            Ed.vida=1000
+            inimigo_group.add(Ed)
     if contador2 == 15:
         contador2 = 0
         wave += 1
@@ -272,7 +286,7 @@ while rodando:
     if mana >= valor_da_mana:
         telinha_mana = pygame.image.load('crystal_pixel_mana.png')
         tela.blit(telinha_mana,(485,0))
-    if contador==2:
+    if contador==1:
         inimigo_group.update()
         contador=0
     inimigo_group.draw(tela)

@@ -69,11 +69,11 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
                                                 'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
                                                 'naruto_8.png'])
-                    dano=30
+                    dano=40
                 elif personagem.tipo=='Sasuke':
                     personagem.altera_boneco(['chidori_1.png','chidori_2.png','chidori_3.png','chidori_4.png','chidori_5.png',\
                                             'chidori_6.png','chidori_7.png','chidori_8.png'])
-                    dano=10
+                    dano=30
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
@@ -184,15 +184,15 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
-torre.vida(20000)
+torre.vida(10000)
 torre2 = Torre("Torre2.png", 975,105)
-torre2.vida(20000  )
+torre2.vida(10000)
 inimigo_group.add(torre2)
 todos_amigos.add(torre)
 
 #Controle de mana
-mana_max=300
-limite=800
+mana_max=100
+limite=1000
 mana=100
 vel_mana=1
 contador=0
@@ -218,11 +218,11 @@ while rodando:
             rodando = False
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
-                if mana>=40:
+                if mana>=60:
                     Goku = Boneco(['1.png','2.png'],5,275,'Goku')
-                    Goku.vida=600
+                    Goku.vida=2000
                     todos_amigos.add(Goku)
-                    mana-=40
+                    mana-=60
 
             elif (event.key==pygame.K_w):
                 if mana>=100:
@@ -233,7 +233,7 @@ while rodando:
 
             elif (event.key==pygame.K_m):
                 if mana>=valor_da_mana:
-                    if mana_max<=limite:
+                    if mana_max<limite:
                         mana_max+=100
                         vel_mana+=0.1
                         mana-=valor_da_mana
@@ -247,7 +247,7 @@ while rodando:
     if x > 50 and x < 75:
         if contador2 == 5:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
-            Sasuke.vida=5000
+            Sasuke.vida=3000
             inimigo_group.add(Sasuke)
     if contador2 == 15:
         contador2 = 0
@@ -255,7 +255,7 @@ while rodando:
     if wave == 100:
         contador2 = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
-    manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
+    manatexto = fonte.render("Mana: {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
     quadro=pygame.image.load('quadro.jpg')
     tela.blit(fundo, (0,0))
     tela.blit(quadro,(0,0))
@@ -264,7 +264,7 @@ while rodando:
     telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
     tela.blit(telinha_goku,(320,0))
     tela.blit(telinha_naruto,(402,0))
-    if mana >= 40:
+    if mana >= 60:
         telinha_goku = pygame.image.load('cara_goku.jpg')
         tela.blit(telinha_goku,(320,0))
     if mana >= 100:

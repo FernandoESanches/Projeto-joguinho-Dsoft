@@ -227,7 +227,7 @@ while rodando:
             elif (event.key==pygame.K_w):
                 if mana>=100:
                     Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto')
-                    Naruto.vida=2000
+                    Naruto.vida=2500
                     todos_amigos.add(Naruto)
                     mana-=100
 
@@ -235,9 +235,9 @@ while rodando:
                 if mana>=valor_da_mana:
                     if mana_max<limite:
                         mana_max+=100
-                        vel_mana+=0.1
+                        vel_mana+=0.3
                         mana-=valor_da_mana
-                        valor_da_mana+=10
+                        valor_da_mana+=30
     
     acao(inimigo_group,todos_amigos)
     acao(todos_amigos,inimigo_group)
@@ -247,7 +247,7 @@ while rodando:
     if x > 50 and x < 75:
         if contador2 == 5:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
-            Sasuke.vida=3000
+            Sasuke.vida=2000
             inimigo_group.add(Sasuke)
     if contador2 == 15:
         contador2 = 0

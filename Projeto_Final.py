@@ -249,7 +249,7 @@ while rodando:
     if contador2 == 15:
         contador2 = 0
         wave += 1
-    if wave == 10:
+    if wave == 100:
         contador2 = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
     manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))

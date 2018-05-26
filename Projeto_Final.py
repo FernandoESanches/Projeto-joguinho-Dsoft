@@ -1,6 +1,6 @@
 'Projeto de Desoft'
 #comandos iniciais vbaseados no jogo feito em sala: helloPongSpriteBase
-#animações baseadas na fonte:https://stackoverflow.com/questions/14044147/animated-sprite-from-few-images
+#Transformador de gif em imagens utilizado: https://pt.bloggif.com/gif-extract
 import pygame
 import sys
 from pygame.locals import *
@@ -24,7 +24,7 @@ class Boneco(pygame.sprite.Sprite):
     def move(self, velocidade):
         self.rect.x += velocidade
     
-    def update(self):
+    def update(self): #animações baseadas na fonte:https://stackoverflow.com/questions/14044147/animated-sprite-from-few-images
         self.index+=1
         if self.index>=len(self.imagens):
             self.index=0
@@ -63,13 +63,18 @@ def acao(grupo_amigo, grupo_inimigo):
             if personagem!=torre and personagem!=torre2:
                 personagem.move(0)
                 if personagem.tipo=='Goku':
-                    personagem.altera_boneco(['1.png','3.png'])
+                    personagem.altera_boneco(['gokuat2.png','gokuat3.png','gokuat4.png',\
+                                            'gokuat5.png','gokuat6.png','gokuat7.png','gokuat8.png'])
                     dano=5
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
                                                 'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
                                                 'naruto_8.png'])
                     dano=40
+                elif personagem.tipo=='Luffy':
+                    personagem.altera_boneco(['luffysoco1.png','luffysoco2.png','luffysoco3.png','luffysoco4.png'])
+                    dano=50
+
                 elif personagem.tipo=='Sasuke':
                     personagem.altera_boneco(['chidori_1.png','chidori_2.png','chidori_3.png','chidori_4.png','chidori_5.png',\
                                             'chidori_6.png','chidori_7.png','chidori_8.png'])
@@ -83,8 +88,8 @@ def acao(grupo_amigo, grupo_inimigo):
         else:
              if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
-                    personagem.altera_boneco(['1.png','2.png'])
-                    personagem.move(4)
+                    personagem.altera_boneco(['goku1.png','goku2.png','goku3.png','goku4.png'])
+                    personagem.move(9)
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto1.png','naruto2.png','naruto3.png'])
                     personagem.move(5)
@@ -93,7 +98,12 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.move(-5)
                 elif personagem.tipo=='Ed':
                     personagem.altera_boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'])
-                    personagem.move(-6)
+                    personagem.move(-8)
+
+                elif personagem.tipo=='Luffy':
+                    personagem.altera_boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
+                                            'luffy6.png','luffy7.png','luffy8.png'])
+                    personagem.move(4)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -190,20 +200,21 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
 torre=Torre("Torre.png", -100,100)
-torre.vida(20000)
+torre.vida(10000)
 torre2 = Torre("Torre2.png", 975,105)
-torre2.vida(20000  )
+torre2.vida(10000)
 inimigo_group.add(torre2)
 todos_amigos.add(torre)
 
 #Controle de mana
 mana_max=300
 limite=800
-mana=0
+mana=100
 vel_mana=1
 contador=0
 contador2=0
 contador3=0
+contador4=0
 valor_da_mana=50
 wave = 0
 while rodando:
@@ -216,16 +227,18 @@ while rodando:
     contador+=1
     contador2+=1
     contador3+=1
+    contador4+=1
     relogio=pygame.time.Clock()
     tempo=relogio.tick(40)
 
     for event in pygame.event.get():
+        #Comandos
         if event.type == QUIT:
             rodando = False
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
                 if mana>=40:
-                    Goku = Boneco(['1.png','2.png'],5,275,'Goku')
+                    Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku')
                     Goku.vida=2500
                     todos_amigos.add(Goku)
                     mana-=40
@@ -236,6 +249,14 @@ while rodando:
                     Naruto.vida=2000
                     todos_amigos.add(Naruto)
                     mana-=100
+            
+            elif (event.key==pygame.K_e):
+                if mana>=300:
+                    Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
+                        'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy')
+                    Luffy.vida=4000
+                    todos_amigos.add(Luffy)
+                    mana-=300
 
             elif (event.key==pygame.K_m):
                 if mana>=valor_da_mana:
@@ -256,7 +277,7 @@ while rodando:
             Sasuke.vida=2000
             inimigo_group.add(Sasuke)
     elif x > 10 and x < 40:
-        if contador == 5:
+        if contador2 == 4:
             Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed')
             Ed.vida=1000
             inimigo_group.add(Ed)

@@ -60,6 +60,7 @@ def acao(grupo_amigo, grupo_inimigo):
         if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
+            punch.set_volume(0.3)
             if personagem!=torre and personagem!=torre2:
                 personagem.move(0)
                 if personagem.tipo=='Goku':
@@ -339,3 +340,4 @@ while rodando:
     pygame.display.flip()
 pygame.display.quit()
 Música_pygame.stop()
+Música_pygame.fadeout

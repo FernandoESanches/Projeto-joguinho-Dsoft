@@ -56,7 +56,7 @@ class Torre(pygame.sprite.Sprite):
         self.vida=life
         
 def acao(grupo_amigo, grupo_inimigo):
-     for personagem in grupo_amigo:
+    for personagem in grupo_amigo:
         if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
@@ -83,6 +83,11 @@ def acao(grupo_amigo, grupo_inimigo):
                 elif personagem.tipo=='Ed':
                     personagem.altera_boneco(['ed1.png','ed2.png','ed3.png','ed4.png','ed5.png','ed6.png','ed7.png','ed8.png'])
                     dano=10
+                elif personagem.tipo=='Boss':
+                    personagem.altera_boneco(['bossat1.png','bossat2.png','bossat3.png','bossat4.png','bossat5.png',\
+                                            'bossat6.png','bossat7.png','bossat8.png'])
+                    dano=100
+
                 personagem.tira_vida(grupo_inimigo,personagem,dano)
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
@@ -105,6 +110,9 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.altera_boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
                                             'luffy6.png','luffy7.png','luffy8.png'])
                     personagem.move(4)
+                elif personagem.tipo=='Boss':
+                    personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
+                    personagem.move(-1)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -213,9 +221,10 @@ limite=800
 mana=100
 vel_mana=1
 contador=0
-contador2=0
-contador3=0
+contador_inimigo=0
+contador_update_dos_inimigos=0
 contador4=0
+contador_boss=0
 valor_da_mana=50
 wave = 0
 while rodando:
@@ -226,9 +235,11 @@ while rodando:
     else:
         mana+=0
     contador+=1
-    contador2+=1
-    contador3+=1
+    contador_inimigo+=1
+    contador_boss+=1
+    contador_update_dos_inimigos+=1
     contador4+=1
+
     relogio=pygame.time.Clock()
     tempo=relogio.tick(40)
 
@@ -263,7 +274,7 @@ while rodando:
                 if mana>=valor_da_mana:
                     if mana_max<limite:
                         mana_max+=100
-                        vel_mana+=0.3
+                        vel_mana+=0.4
                         mana-=valor_da_mana
                         valor_da_mana+=30
     
@@ -273,20 +284,27 @@ while rodando:
     #Wave 
     x = random.randint(0,100)
     if x > 65 and x < 75:
-        if contador2 == 4:
+        if contador_inimigo == 4:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
             Sasuke.vida=2000
             inimigo_group.add(Sasuke)
     elif x > 10 and x < 40:
-        if contador2 == 4:
+        if contador_inimigo == 4:
             Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed')
             Ed.vida=1000
             inimigo_group.add(Ed)
-    if contador2 == 15:
-        contador2 = 0
+    else:
+        if contador_boss==100:
+            Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss')
+            Boss.vida=20000
+            inimigo_group.add(Boss)
+            wave=100
+
+    if contador_inimigo == 15:
+        contador_inimigo = 0
         wave += 1
     if wave == 100:
-        contador2 = 0
+        contador_inimigo = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
     manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
     quadro=pygame.image.load('quadro.jpg')
@@ -299,8 +317,8 @@ while rodando:
     telinha_luffy = pygame.image.load('Cara_luffy_bloqueada.png')
     tela.blit(telinha_goku,(320,0))
     tela.blit(telinha_naruto,(402,0))
-    tela.blit(telinha_mana,(485,0))
-    tela.blit(telinha_luffy,(565,0))
+    tela.blit(telinha_mana,(566,0))
+    tela.blit(telinha_luffy,(484,0))
     
     #Cooldown dos personagens
     def cooldown(mana_min, imagem,posicao):
@@ -309,17 +327,18 @@ while rodando:
             tela.blit(telinha,posicao)
     cooldown(40,"cara_goku.jpg",(320,0))
     cooldown(100,"naruto_rosto.jpg",(402,0))
-    cooldown(valor_da_mana,'crystal_pixel_mana.png',(484,0))
-    cooldown(150,"Cara_luffy.png",(565,0))
+    cooldown(300,"Cara_luffy.png",(484,0))
+    cooldown(valor_da_mana,'crystal_pixel_mana.png',(566,0))
+    cooldown(300,"Cara_luffy.png",(484,0))
     
     #Tempo para dar o update
     if contador==1:
         inimigo_group.update()
         contador=0
     inimigo_group.draw(tela)
-    if contador3==1:
+    if contador_update_dos_inimigos==1:
         todos_amigos.update()
-        contador3=0
+        contador_update_dos_inimigos=0
     todos_amigos.draw(tela)
     
     def fim(torre,imagem):

@@ -7,7 +7,7 @@ from pygame.locals import *
 import random
 import numpy as np
 class Boneco(pygame.sprite.Sprite):
-    def __init__(self,lista_imagens,posx,posy,tipo):
+    def __init__(self,lista_imagens,posx,posy,tipo,largura,altura):
         pygame.sprite.Sprite.__init__(self)
         
         self.imagens=[]
@@ -15,7 +15,7 @@ class Boneco(pygame.sprite.Sprite):
             self.imagens.append(pygame.image.load(img))
         self.index=0
         self.image=self.imagens[self.index]
-        self.rect=pygame.Rect(posx,posy,120,120)
+        self.rect=pygame.Rect(posx,posy,largura,altura)
         self.tipo=tipo
 
     def ativa_boneco(self, imagem):
@@ -57,7 +57,8 @@ class Torre(pygame.sprite.Sprite):
         
 def acao(grupo_amigo, grupo_inimigo):
     for personagem in grupo_amigo:
-        if pygame.sprite.spritecollide(personagem,grupo_inimigo, False):
+        colisoes=pygame.sprite.spritecollide(personagem,grupo_inimigo, False)
+        if colisoes:
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
             punch.set_volume(0.3)
@@ -88,7 +89,8 @@ def acao(grupo_amigo, grupo_inimigo):
                                             'bossat6.png','bossat7.png','bossat8.png'])
                     dano=100
 
-                personagem.tira_vida(grupo_inimigo,personagem,dano)
+                for inimigo in colisoes:
+                    inimigo.vida-=dano
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
         else:
@@ -250,14 +252,14 @@ while rodando:
         if (event.type==pygame.KEYDOWN):
             if (event.key==pygame.K_q):
                 if mana>=40:
-                    Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku')
+                    Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
                     Goku.vida=2500
                     todos_amigos.add(Goku)
                     mana-=40
 
             elif (event.key==pygame.K_w):
                 if mana>=100:
-                    Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto')
+                    Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
                     Naruto.vida=2000
                     todos_amigos.add(Naruto)
                     mana-=100
@@ -265,7 +267,7 @@ while rodando:
             elif (event.key==pygame.K_e):
                 if mana>=300:
                     Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
-                        'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy')
+                        'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
                     Luffy.vida=4000
                     todos_amigos.add(Luffy)
                     mana-=300
@@ -274,7 +276,7 @@ while rodando:
                 if mana>=valor_da_mana:
                     if mana_max<limite:
                         mana_max+=100
-                        vel_mana+=0.4
+                        vel_mana+=0.5
                         mana-=valor_da_mana
                         valor_da_mana+=30
     
@@ -285,17 +287,16 @@ while rodando:
     x = random.randint(0,100)
     if x > 65 and x < 75:
         if contador_inimigo == 4:
-            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke')
+            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
             Sasuke.vida=2000
             inimigo_group.add(Sasuke)
     elif x > 10 and x < 40:
         if contador_inimigo == 4:
-            Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed')
+            Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
             Ed.vida=1000
             inimigo_group.add(Ed)
-    else:
-        if contador_boss==100:
-            Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss')
+        if contador_boss==300:
+            Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
             Boss.vida=20000
             inimigo_group.add(Boss)
             wave=100
@@ -306,7 +307,7 @@ while rodando:
     if wave == 100:
         contador_inimigo = 0
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
-    manatexto = fonte.render("Mana:  {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
+    manatexto = fonte.render("Mana: {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
     quadro=pygame.image.load('quadro.jpg')
     tela.blit(fundo, (0,0))
     tela.blit(quadro,(0,0))

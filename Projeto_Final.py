@@ -217,7 +217,7 @@ todos_amigos.add(torre)
 
 #Controle de mana
 mana_max=300
-limite=800
+limite=1000
 mana=100
 vel_mana=1
 contador=0

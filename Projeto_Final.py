@@ -6,6 +6,12 @@ import sys
 from pygame.locals import *
 import random
 import numpy as np
+from firebase import firebase
+
+firebase=firebase.FirebaseApplication('https://joguinho-desoft.firebaseio.com/', None)
+recorde=firebase.get('Score',None)
+pontuacao={'pontos':0}
+
 class Boneco(pygame.sprite.Sprite):
     def __init__(self,lista_imagens,posx,posy,tipo,largura,altura):
         pygame.sprite.Sprite.__init__(self)
@@ -55,7 +61,7 @@ class Torre(pygame.sprite.Sprite):
     def vida(self,life):
         self.vida=life
         
-def acao(grupo_amigo, grupo_inimigo):
+def acao(grupo_amigo, grupo_inimigo,pontuacao):
     for personagem in grupo_amigo:
         colisoes=pygame.sprite.spritecollide(personagem,grupo_inimigo, False)
         if colisoes:
@@ -93,6 +99,13 @@ def acao(grupo_amigo, grupo_inimigo):
                     inimigo.vida-=dano
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
+                if personagem!=torre and personagem!=torre2:
+                    if personagem.tipo=='Ed':
+                        pontuacao['pontos']+=50
+                    elif personagem.tipo=='Sasuke':
+                        pontuacao['pontos']+=200
+                    elif personagem.tipo=='Boss':
+                        pontuacao['pontos']+=2000
         else:
              if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
@@ -114,7 +127,7 @@ def acao(grupo_amigo, grupo_inimigo):
                     personagem.move(4)
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
-                    personagem.move(-1)
+                    personagem.move(-30)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -280,8 +293,8 @@ while rodando:
                         mana-=valor_da_mana
                         valor_da_mana+=30
     
-    acao(inimigo_group,todos_amigos)
-    acao(todos_amigos,inimigo_group)
+    acao(inimigo_group,todos_amigos,pontuacao)
+    acao(todos_amigos,inimigo_group,pontuacao)
 
     #Wave 
     x = random.randint(0,100)
@@ -295,11 +308,11 @@ while rodando:
             Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
             Ed.vida=1000
             inimigo_group.add(Ed)
-        if contador_boss==300:
-            Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
-            Boss.vida=20000
-            inimigo_group.add(Boss)
-            wave=100
+    if contador_boss==100:
+        Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
+        Boss.vida=20000
+        inimigo_group.add(Boss)
+        wave=100
 
     if contador_inimigo == 15:
         contador_inimigo = 0
@@ -358,6 +371,10 @@ while rodando:
     fim(torre2,"youwin.jpg")
    
     pygame.display.flip()
+if recorde<pontuacao['pontos']:
+    recorde=pontuacao['pontos']
+    firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)
+print('Pontuação:{0}. \nRecorde:{1}.'.format(pontuacao['pontos'],recorde))
 pygame.display.quit()
 Música_pygame.stop()
 Música_pygame.fadeout

@@ -61,6 +61,23 @@ class Torre(pygame.sprite.Sprite):
     def vida(self,life):
         self.vida=life
         
+class Portal(pygame.sprite.Sprite):
+    def __init__(self,lista_imagens,posx,posy,largura,altura):
+        pygame.sprite.Sprite.__init__(self)
+        
+        self.imagens=[]
+        for img in lista_imagens:
+            self.imagens.append(pygame.image.load(img))
+        self.index=0
+        self.image=self.imagens[self.index]
+        self.rect=pygame.Rect(posx,posy,largura,altura)
+
+    def update(self): #animações baseadas na fonte:https://stackoverflow.com/questions/14044147/animated-sprite-from-few-images
+        self.index+=1
+        if self.index>=len(self.imagens):
+            self.index=0
+        self.image=self.imagens[self.index]
+
 def acao(grupo_amigo, grupo_inimigo,pontuacao):
     for personagem in grupo_amigo:
         colisoes=pygame.sprite.spritecollide(personagem,grupo_inimigo, False)
@@ -68,7 +85,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
             punch.set_volume(0.3)
-            if personagem!=torre and personagem!=torre2:
+            if personagem!=torre:
                 personagem.move(0)
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['gokuat2.png','gokuat3.png','gokuat4.png',\
@@ -99,7 +116,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                     inimigo.vida-=dano
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
-                if personagem!=torre and personagem!=torre2:
+                if personagem!=torre:
                     if personagem.tipo=='Ed':
                         pontuacao['pontos']+=50
                     elif personagem.tipo=='Sasuke':
@@ -109,7 +126,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                         
                         
         else:
-             if personagem!=torre and personagem!=torre2:
+             if personagem!=torre:
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['goku1.png','goku2.png','goku3.png','goku4.png'])
                     personagem.move(9)
@@ -129,7 +146,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                     personagem.move(4)
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
-                    personagem.move(-1)
+                    personagem.move(-30)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -226,12 +243,14 @@ fundo= pygame.image.load("cenario.jpeg").convert()
 
 todos_amigos=pygame.sprite.Group()
 inimigo_group=pygame.sprite.Group()
+the_portal=pygame.sprite.Group()
+
+portal=Portal(['portal1.png','portal2.png','portal3.png','portal4.png','portal5.png','portal6.png','portal7.png','portal8.png','portal9.png'],\
+                1020,140,400,400)
 torre=Torre("Torre.png", -100,100)
 torre.vida(10000)
-torre2 = Torre("Torre2.png", 975,105)
-torre2.vida(10000)
-inimigo_group.add(torre2)
 todos_amigos.add(torre)
+the_portal.add(portal)
 
 #Controle de mana
 mana_max=300
@@ -247,128 +266,131 @@ valor_da_mana=50
 contador_final = 1
 wave = 0
 while rodando:
-    if mana<=mana_max:
-        mana+=vel_mana
-        if mana>mana_max:
-            mana=mana_max
-    else:
-        mana+=0
-    contador+=1
-    contador_inimigo+=1
-    contador_boss+=1
-    contador_update_dos_inimigos+=1
-    contador4+=1
+    try:
+        if mana<=mana_max:
+            mana+=vel_mana
+            if mana>mana_max:
+                mana=mana_max
+        else:
+            mana+=0
+        contador+=1
+        contador_inimigo+=1
+        contador_boss+=1
+        contador_update_dos_inimigos+=1
+        contador4+=1
 
-    relogio=pygame.time.Clock()
-    tempo=relogio.tick(40)
+        relogio=pygame.time.Clock()
+        tempo=relogio.tick(40)
 
-    for event in pygame.event.get():
-        #Comandos
-        if event.type == QUIT:
-            rodando = False
-        if (event.type==pygame.KEYDOWN):
-            if (event.key==pygame.K_q):
-                if mana>=40:
-                    Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
-                    Goku.vida=2500
-                    todos_amigos.add(Goku)
-                    mana-=40
+        for event in pygame.event.get():
+            #Comandos
+            if event.type == QUIT:
+                rodando = False
+            if (event.type==pygame.KEYDOWN):
+                if (event.key==pygame.K_q):
+                    if mana>=40:
+                        Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
+                        Goku.vida=2500
+                        todos_amigos.add(Goku)
+                        mana-=40
 
-            elif (event.key==pygame.K_w):
-                if mana>=100:
-                    Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
-                    Naruto.vida=2000
-                    todos_amigos.add(Naruto)
-                    mana-=100
-            
-            elif (event.key==pygame.K_e):
-                if mana>=300:
-                    Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
-                        'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
-                    Luffy.vida=4000
-                    todos_amigos.add(Luffy)
-                    mana-=300
+                elif (event.key==pygame.K_w):
+                    if mana>=100:
+                        Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
+                        Naruto.vida=2000
+                        todos_amigos.add(Naruto)
+                        mana-=100
+                
+                elif (event.key==pygame.K_e):
+                    if mana>=300:
+                        Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
+                            'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
+                        Luffy.vida=4000
+                        todos_amigos.add(Luffy)
+                        mana-=300
 
-            elif (event.key==pygame.K_m):
-                if mana>=valor_da_mana:
-                    if mana_max<limite:
-                        mana_max+=100
-                        vel_mana+=0.5
-                        mana-=valor_da_mana
-                        valor_da_mana+=30
-    
-    acao(inimigo_group,todos_amigos,pontuacao)
-    acao(todos_amigos,inimigo_group,pontuacao)
-
-    #Wave 
-    x = random.randint(0,100)
-    if x > 60 and x < 75:
-        if contador_inimigo == 4:
-            Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
-            Sasuke.vida=2000
-            inimigo_group.add(Sasuke)
-    elif x > 35 and x < 40:
-        if contador_inimigo == 4:
-            Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
-            Ed.vida=1000
-            inimigo_group.add(Ed)
-    if contador_boss==200:
-        Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
-        Boss.vida=1000
-        inimigo_group.add(Boss)
-        contador_final=100
+                elif (event.key==pygame.K_m):
+                    if mana>=valor_da_mana:
+                        if mana_max<limite:
+                            mana_max+=100
+                            vel_mana+=0.5
+                            mana-=valor_da_mana
+                            valor_da_mana+=30
         
-    if contador_final == 100:
-        contador_inimigo = 0
-    if contador_boss==500:
-       contador_final = 0
-       contador_boss = 0
-    if contador_inimigo == 10:
-        contador_inimigo = 0
-        contador_final += 1
-    
-     
-# printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
-    manatexto = fonte.render("Mana: {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
-    quadro=pygame.image.load('quadro.jpg')
-    tela.blit(fundo, (0,0))
-    tela.blit(quadro,(0,0))
-    tela.blit(manatexto, (20, 20))
-    telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')
-    telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
-    telinha_mana = pygame.image.load('crystal_pixel_mana_bloqueada.png')
-    telinha_luffy = pygame.image.load('Cara_luffy_bloqueada.png')
-    tela.blit(telinha_goku,(320,0))
-    tela.blit(telinha_naruto,(402,0))
-    tela.blit(telinha_mana,(566,0))
-    tela.blit(telinha_luffy,(484,0))
-    
-    #Cooldown dos personagens
-    def cooldown(mana_min, imagem,posicao):
-        if mana >= mana_min:
-            telinha = pygame.image.load(imagem)
-            tela.blit(telinha,posicao)
-    cooldown(40,"cara_goku.jpg",(320,0))
-    cooldown(100,"naruto_rosto.jpg",(402,0))
-    cooldown(300,"Cara_luffy.png",(484,0))
-    cooldown(valor_da_mana,'crystal_pixel_mana.png',(566,0))
-    cooldown(300,"Cara_luffy.png",(484,0))
-    
-    #Tempo para dar o update
-    if contador==1:
-        inimigo_group.update()
-        contador=0
-    inimigo_group.draw(tela)
-    if contador_update_dos_inimigos==1:
-        todos_amigos.update()
-        contador_update_dos_inimigos=0
-    todos_amigos.draw(tela)
-    
-    def fim(torre,imagem):
+        acao(inimigo_group,todos_amigos,pontuacao)
+        acao(todos_amigos,inimigo_group,pontuacao)
+
+        #Wave 
+        x = random.randint(0,100)
+        if x > 60 and x < 75:
+            if contador_inimigo == 4:
+                Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
+                Sasuke.vida=2000
+                inimigo_group.add(Sasuke)
+        elif x > 35 and x < 40:
+            if contador_inimigo == 4:
+                Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
+                Ed.vida=1000
+                inimigo_group.add(Ed)
+        if contador_boss==200:
+            Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
+            Boss.vida=1000
+            inimigo_group.add(Boss)
+            contador_final=100
+            
+        if contador_final == 100:
+            contador_inimigo = 0
+        if contador_boss==500:
+           contador_final = 0
+           contador_boss = 0
+        if contador_inimigo == 10:
+            contador_inimigo = 0
+            contador_final += 1
+        
+         
+    # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
+        manatexto = fonte.render("Mana: {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
+        quadro=pygame.image.load('quadro.jpg')
+        tela.blit(fundo, (0,0))
+        tela.blit(quadro,(0,0))
+        tela.blit(manatexto, (20, 20))
+        telinha_goku = pygame.image.load('cara_goku_bloqueada.jpg')
+        telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
+        telinha_mana = pygame.image.load('crystal_pixel_mana_bloqueada.png')
+        telinha_luffy = pygame.image.load('Cara_luffy_bloqueada.png')
+        tela.blit(telinha_goku,(320,0))
+        tela.blit(telinha_naruto,(402,0))
+        tela.blit(telinha_mana,(566,0))
+        tela.blit(telinha_luffy,(484,0))
+        
+        #Cooldown dos personagens
+        def cooldown(mana_min, imagem,posicao):
+            if mana >= mana_min:
+                telinha = pygame.image.load(imagem)
+                tela.blit(telinha,posicao)
+        cooldown(40,"cara_goku.jpg",(320,0))
+        cooldown(100,"naruto_rosto.jpg",(402,0))
+        cooldown(300,"Cara_luffy.png",(484,0))
+        cooldown(valor_da_mana,'crystal_pixel_mana.png',(566,0))
+        cooldown(300,"Cara_luffy.png",(484,0))
+        
+        #Tempo para dar o update
+        if contador==1:
+            inimigo_group.update()
+            contador=0
+        if contador_update_dos_inimigos==1:
+            todos_amigos.update()
+            the_portal.update()
+            contador_update_dos_inimigos=0
+        the_portal.draw(tela)
+        todos_amigos.draw(tela)
+        inimigo_group.draw(tela)
+
+        
         if torre.vida<=0:
-            fundo= pygame.image.load(imagem).convert()
-            inimigo_group=pygame.sprite.Group()
-            todos_amigos=pygame.sprite.Group()
+            fundo= pygame.image.load("gameover.jpg").convert()
+            del(inimigo_group)
+            del(todos_amigos)
             tela.blit(fundo,(0,0))
             pygame.mixer.music.stop()
             scores = fonte_score.render("Score: {0}".format(pontuacao['pontos']), 7, (250,250,250))
@@ -378,13 +400,10 @@ while rodando:
             if (event.type==pygame.KEYDOWN):
                 if event.key==K_ESCAPE:
                     rodando=False
-                else:
-                    True
-    fim(torre,"gameover.jpg")
-    fim(torre2,"youwin.jpg")
-    
-   
-    pygame.display.flip()
+
+        pygame.display.flip()
+    except NameError:
+        None
 if recorde<pontuacao['pontos']:
     recorde=pontuacao['pontos']
     firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)

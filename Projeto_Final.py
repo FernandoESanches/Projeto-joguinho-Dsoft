@@ -106,6 +106,8 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                         pontuacao['pontos']+=200
                     elif personagem.tipo=='Boss':
                         pontuacao['pontos']+=2000
+                        
+                        
         else:
              if personagem!=torre and personagem!=torre2:
                 if personagem.tipo=='Goku':
@@ -127,7 +129,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                     personagem.move(4)
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
-                    personagem.move(-30)
+                    personagem.move(-1)
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -176,7 +178,8 @@ tela_intro=pygame.image.load("start tela.png").convert()
 start = Botao("Start",(1238/2, 150))
 tela_tutorial = pygame.image.load("TelaTuto.png").convert()
 tutorial = Botao("Tutorial",(1238/2, 400))
-fonte = myfont = pygame.font.SysFont("monospace", 30)
+fonte =  pygame.font.SysFont("monospace", 30)
+fonte_score = pygame.font.SysFont("monospace", 30)
 rodando = True
 intro = True
 pré_jogo = True
@@ -241,6 +244,7 @@ contador_update_dos_inimigos=0
 contador4=0
 contador_boss=0
 valor_da_mana=50
+contador_final = 1
 wave = 0
 while rodando:
     if mana<=mana_max:
@@ -298,27 +302,32 @@ while rodando:
 
     #Wave 
     x = random.randint(0,100)
-    if x > 65 and x < 75:
+    if x > 60 and x < 75:
         if contador_inimigo == 4:
             Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
             Sasuke.vida=2000
             inimigo_group.add(Sasuke)
-    elif x > 10 and x < 40:
+    elif x > 35 and x < 40:
         if contador_inimigo == 4:
             Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
             Ed.vida=1000
             inimigo_group.add(Ed)
-    if contador_boss==100:
+    if contador_boss==200:
         Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
-        Boss.vida=20000
+        Boss.vida=1000
         inimigo_group.add(Boss)
-        wave=100
-
-    if contador_inimigo == 15:
+        contador_final=100
+        
+    if contador_final == 100:
         contador_inimigo = 0
-        wave += 1
-    if wave == 100:
+    if contador_boss==500:
+       contador_final = 0
+       contador_boss = 0
+    if contador_inimigo == 10:
         contador_inimigo = 0
+        contador_final += 1
+    
+     
 # printar o contador de mana https://stackoverflow.com/questions/19733226/python-pygame-how-to-make-my-score-text-update-itself-forever   
     manatexto = fonte.render("Mana: {0}/{1}".format(int(mana),mana_max), 7, (250,250,250))
     quadro=pygame.image.load('quadro.jpg')
@@ -362,6 +371,10 @@ while rodando:
             todos_amigos=pygame.sprite.Group()
             tela.blit(fundo,(0,0))
             pygame.mixer.music.stop()
+            scores = fonte_score.render("Score: {0}".format(pontuacao['pontos']), 7, (250,250,250))
+            recordes= fonte_score.render("Highscore: {0}".format(recorde), 7, (250,250,250))
+            tela.blit(scores,(1100/2,50))
+            tela.blit(recordes,(1100/2,100))
             if (event.type==pygame.KEYDOWN):
                 if event.key==K_ESCAPE:
                     rodando=False
@@ -369,6 +382,7 @@ while rodando:
                     True
     fim(torre,"gameover.jpg")
     fim(torre2,"youwin.jpg")
+    
    
     pygame.display.flip()
 if recorde<pontuacao['pontos']:

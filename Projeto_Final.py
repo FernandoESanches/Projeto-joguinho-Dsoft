@@ -1,6 +1,8 @@
 'Projeto de Desoft'
 #comandos iniciais vbaseados no jogo feito em sala: helloPongSpriteBase
 #Transformador de gif em imagens utilizado: https://pt.bloggif.com/gif-extract
+
+#=========================================Imports============================================
 import pygame
 import sys
 from pygame.locals import *
@@ -8,10 +10,12 @@ import random
 import numpy as np
 from firebase import firebase
 
+#=========================================Firebase===========================================
 firebase=firebase.FirebaseApplication('https://joguinho-desoft.firebaseio.com/', None)
 recorde=firebase.get('Score',None)
 pontuacao={'pontos':0}
 
+# ==============================Classes========================================================
 class Boneco(pygame.sprite.Sprite):
     def __init__(self,lista_imagens,posx,posy,tipo,largura,altura):
         pygame.sprite.Sprite.__init__(self)
@@ -78,6 +82,7 @@ class Portal(pygame.sprite.Sprite):
             self.index=0
         self.image=self.imagens[self.index]
 
+# =========================================Função====================================
 def acao(grupo_amigo, grupo_inimigo,pontuacao):
     for personagem in grupo_amigo:
         colisoes=pygame.sprite.spritecollide(personagem,grupo_inimigo, False)
@@ -123,8 +128,6 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                         pontuacao['pontos']+=200
                     elif personagem.tipo=='Boss':
                         pontuacao['pontos']+=2000
-                        
-                        
         else:
              if personagem!=torre:
                 if personagem.tipo=='Goku':
@@ -147,6 +150,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
                     personagem.move(-30)
+
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)
 cor_letra = (0,0,0)
@@ -183,20 +187,23 @@ class Botao():
             return True
         return False
 
-
-# início
-    
+#================================Início======================================
 pygame.init()
+
+#=====Tela=========
 tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
+
+#====Som==========
 Música_pygame = pygame.mixer.Sound('Musica_pygame.wav')
 Música_pygame.play()
+
 tela_intro=pygame.image.load("start tela.png").convert()
 start = Botao("Start",(1238/2, 150))
 tela_tutorial = pygame.image.load("TelaTuto.png").convert()
 tutorial = Botao("Tutorial",(1238/2, 400))
 fonte =  pygame.font.SysFont("monospace", 30)
-fonte_score = pygame.font.SysFont("monospace", 30)
+fonte_score = pygame.font.SysFont("Arial", 30)
 rodando = True
 intro = True
 pré_jogo = True

@@ -168,6 +168,7 @@ class Botao():
         self.txt_rect = self.txt_surf.get_rect(center=[s//2 for s in self.size])
         self.surface = pygame.surface.Surface(size)
         self.rect = self.surface.get_rect(center=location)
+       
 
     def draw(self,tela):
        self.surface.fill(self.bg)
@@ -193,7 +194,7 @@ pygame.init()
 tela = pygame.display.set_mode((1238,491), 0, 32)
 pygame.display.set_caption('Tower defense')
 
-#====Som==========
+#====Som========== orietações pegas de https://www.pygame.org/docs/ref/mixer.html
 Música_pygame = pygame.mixer.Sound('Musica_pygame.wav')
 Música_pygame.play()
 
@@ -393,19 +394,12 @@ while rodando:
         todos_amigos.draw(tela)
         inimigo_group.draw(tela)
 
-        #=====Barra de vida======Retirado de https://stackoverflow.com/questions/19780411/pygame-drawing-a-rectangle
-        red=(255,0,0)
-        green=(0,255,0)
-        torre_life=150*torre.vida/10000
-        barra_vermelha=pygame.draw.rect(tela,red,(80,160,150,10))
-        vida=pygame.draw.rect(tela,green,(80,160,torre_life,10))
+        
         if torre.vida<=0:
             
             fundo= pygame.image.load("gameover.jpg").convert()
             del(inimigo_group)
             del(todos_amigos)
-            del(vida)
-            del(torre_life)
             tela.blit(fundo,(0,0))
             pygame.mixer.music.stop()
             if recorde<pontuacao['pontos']:

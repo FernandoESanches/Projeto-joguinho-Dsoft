@@ -401,6 +401,8 @@ while rodando:
             del(todos_amigos)
             tela.blit(fundo,(0,0))
             pygame.mixer.music.stop()
+            if recorde<pontuacao['pontos']:
+                recorde=pontuacao['pontos']
             scores = fonte_score.render("Score: {0}".format(pontuacao['pontos']), 7, (250,250,250))
             recordes= fonte_score.render("Highscore: {0}".format(recorde), 7, (250,250,250))
             tela.blit(scores,(1100/2,50))
@@ -412,9 +414,8 @@ while rodando:
         pygame.display.flip()
     except NameError:
         None
-if recorde<pontuacao['pontos']:
-    recorde=pontuacao['pontos']
-    firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)
+
+firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)
 print('Pontuação:{0}. \nRecorde:{1}.'.format(pontuacao['pontos'],recorde))
 pygame.display.quit()
 Música_pygame.stop()

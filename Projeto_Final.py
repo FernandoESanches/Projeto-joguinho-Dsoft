@@ -388,6 +388,7 @@ while rodando:
 
         
         if torre.vida<=0:
+            
             fundo= pygame.image.load("gameover.jpg").convert()
             del(inimigo_group)
             del(todos_amigos)

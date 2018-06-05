@@ -264,7 +264,7 @@ contador4=0
 contador_boss=0
 valor_da_mana=50
 contador_final = 1
-wave = 0
+dificuldade = 0
 while rodando:
     try:
         if mana<=mana_max:
@@ -322,12 +322,12 @@ while rodando:
 
         #Wave 
         x = random.randint(0,100)
-        if x > 60 and x < 75:
+        if x > 60 - dificuldade and x < 75 + dificuldade:
             if contador_inimigo == 4:
                 Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
                 Sasuke.vida=2000
                 inimigo_group.add(Sasuke)
-        elif x > 35 and x < 40:
+        elif x > 35 - dificuldade and x < 40 + dificuldade:
             if contador_inimigo == 4:
                 Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
                 Ed.vida=1000
@@ -337,12 +337,13 @@ while rodando:
             Boss.vida=1000
             inimigo_group.add(Boss)
             contador_final=100
-            
+            dificuldade += 2
+        
         if contador_final == 100:
             contador_inimigo = 0
         if contador_boss==500:
-           contador_final = 0
-           contador_boss = 0
+            contador_final = 0
+            contador_boss = 0
         if contador_inimigo == 10:
             contador_inimigo = 0
             contador_final += 1

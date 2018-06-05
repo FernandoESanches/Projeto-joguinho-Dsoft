@@ -168,7 +168,6 @@ class Botao():
         self.txt_rect = self.txt_surf.get_rect(center=[s//2 for s in self.size])
         self.surface = pygame.surface.Surface(size)
         self.rect = self.surface.get_rect(center=location)
-       
 
     def draw(self,tela):
        self.surface.fill(self.bg)
@@ -394,6 +393,7 @@ while rodando:
         todos_amigos.draw(tela)
         inimigo_group.draw(tela)
 
+        #=====Barra de vida======Retirado de https://stackoverflow.com/questions/19780411/pygame-drawing-a-rectangle
         red=(255,0,0)
         green=(0,255,0)
         torre_life=150*torre.vida/10000

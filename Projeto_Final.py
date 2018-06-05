@@ -340,14 +340,14 @@ while rodando:
                 inimigo_group.add(Ed)
         if contador_boss==200:
             Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
-            Boss.vida=1000
+            Boss.vida=10000
             inimigo_group.add(Boss)
             contador_final=100
             dificuldade += 2
         
         if contador_final == 100:
             contador_inimigo = 0
-        if contador_boss==500:
+        if contador_boss==800:
             contador_final = 0
             contador_boss = 0
         if contador_inimigo == 10:

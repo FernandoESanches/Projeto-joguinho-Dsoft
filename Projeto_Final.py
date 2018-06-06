@@ -149,7 +149,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                     personagem.move(4)
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['boss1.png','boss2.png','boss3.png','boss4.png'])
-                    personagem.move(-30)
+                    personagem.move(-1)
 
 # classe do botão retirada de: http://www.dreamincode.net/forums/topic/401541-buttons-and-sliders-in-pygame/
 cor_fundo = (255, 235, 215)

@@ -43,7 +43,10 @@ class Boneco(pygame.sprite.Sprite):
     def altera_boneco(self,lista_imagens):
         self.imagens=[]
         for imagem in lista_imagens:
-            self.imagens.append(pygame.image.load(imagem))             
+            self.imagens.append(pygame.image.load(imagem))   
+
+    def dano(self,dano):
+        self.dano=dano          
 
     def vida(self,life):
         self.vida=life
@@ -95,30 +98,28 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['gokuat2.png','gokuat3.png','gokuat4.png',\
                                             'gokuat5.png','gokuat6.png','gokuat7.png','gokuat8.png'])
-                    dano=5
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
                                                 'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
                                                 'naruto_8.png'])
-                    dano=40
+                    
                 elif personagem.tipo=='Luffy':
                     personagem.altera_boneco(['luffysoco1.png','luffysoco2.png','luffysoco3.png','luffysoco4.png'])
-                    dano=50
+                    
 
                 elif personagem.tipo=='Sasuke':
                     personagem.altera_boneco(['chidori_1.png','chidori_2.png','chidori_3.png','chidori_4.png','chidori_5.png',\
                                             'chidori_6.png','chidori_7.png','chidori_8.png'])
-                    dano=30
+                    
                 elif personagem.tipo=='Ed':
                     personagem.altera_boneco(['ed1.png','ed2.png','ed3.png','ed4.png','ed5.png','ed6.png','ed7.png','ed8.png'])
-                    dano=10
+                    
                 elif personagem.tipo=='Boss':
                     personagem.altera_boneco(['bossat1.png','bossat2.png','bossat3.png','bossat4.png','bossat5.png',\
                                             'bossat6.png','bossat7.png','bossat8.png'])
-                    dano=100
-
+                    
                 for inimigo in colisoes:
-                    inimigo.vida-=dano
+                    inimigo.vida-=personagem.dano
             if personagem.vida<=0:
                 grupo_amigo.remove(personagem)
                 if personagem!=torre:
@@ -128,6 +129,9 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                         pontuacao['pontos']+=200
                     elif personagem.tipo=='Boss':
                         pontuacao['pontos']+=2000
+                        BOSS['vida']+=1000
+                        BOSS['dano']+=30
+                        
         else:
              if personagem!=torre:
                 if personagem.tipo=='Goku':
@@ -263,6 +267,10 @@ mana_max=300
 limite=1000
 mana=100
 vel_mana=1
+
+#Caracteristicas do Boss
+BOSS={'vida':10000,'dano':100}
+
 contador=0
 contador_inimigo=0
 contador_update_dos_inimigos=0
@@ -297,6 +305,7 @@ while rodando:
                     if mana>=40:
                         Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
                         Goku.vida=2500
+                        Goku.dano=5
                         todos_amigos.add(Goku)
                         mana-=40
 
@@ -304,6 +313,7 @@ while rodando:
                     if mana>=100:
                         Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
                         Naruto.vida=2000
+                        Naruto.dano=40
                         todos_amigos.add(Naruto)
                         mana-=100
                 
@@ -312,6 +322,7 @@ while rodando:
                         Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
                             'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
                         Luffy.vida=4000
+                        Luffy.dano=50
                         todos_amigos.add(Luffy)
                         mana-=300
 
@@ -332,15 +343,18 @@ while rodando:
             if contador_inimigo == 4:
                 Sasuke=Boneco(['sasuke1.png','sasuke2.png','sasuke3.png'],1100,300,'Sasuke',157,200)
                 Sasuke.vida=2000
+                Sasuke.dano=30
                 inimigo_group.add(Sasuke)
         elif x > 35 - dificuldade and x < 40 + dificuldade:
             if contador_inimigo == 4:
                 Ed=Boneco(['af1.png','af2.png','af3.png','af4.png','af5.png','af6.png'],1100,300,'Ed',239,200)
                 Ed.vida=1000
+                Ed.dano=20
                 inimigo_group.add(Ed)
         if contador_boss==200:
             Boss=Boneco(['boss1.png','boss2.png','boss3.png','boss4.png'],1100,250,'Boss',250,259)
-            Boss.vida=10000
+            Boss.vida=BOSS['vida']
+            Boss.dano=BOSS['dano']
             inimigo_group.add(Boss)
             contador_final=100
             dificuldade += 2

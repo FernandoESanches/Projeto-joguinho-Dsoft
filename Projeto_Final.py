@@ -86,6 +86,14 @@ class Portal(pygame.sprite.Sprite):
         self.image=self.imagens[self.index]
 
 # =========================================Função====================================
+def powerup(uuup,dano_inicial,power):
+    if mana_max >= uuup:
+        dano = dano_inicial
+        dano += power
+    else:
+        dano = dano_inicial
+    return dano
+
 def acao(grupo_amigo, grupo_inimigo,pontuacao):
     for personagem in grupo_amigo:
         colisoes=pygame.sprite.spritecollide(personagem,grupo_inimigo, False)
@@ -98,13 +106,19 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['gokuat2.png','gokuat3.png','gokuat4.png',\
                                             'gokuat5.png','gokuat6.png','gokuat7.png','gokuat8.png'])
+                    dano = powerup(800,5,30)
+                    dano = powerup(1200,dano,30)
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
                                                 'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
                                                 'naruto_8.png'])
+                    dano = powerup(1000,40,50)
+                    dano = powerup(1300,dano,50)
                     
                 elif personagem.tipo=='Luffy':
                     personagem.altera_boneco(['luffysoco1.png','luffysoco2.png','luffysoco3.png','luffysoco4.png'])
+                    dano = powerup(1100,40,50)
+                    dano = powerup(1400,dano,50)
                     
 
                 elif personagem.tipo=='Sasuke':

@@ -313,12 +313,12 @@ while rodando:
                 rodando = False
             if (event.type==pygame.KEYDOWN):
                 if (event.key==pygame.K_q):
-                    if mana>=40:
+                    if mana>=60:
                         Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
                         Goku.vida=2500
                         Goku.dano=powerup(800,5,10)
                         todos_amigos.add(Goku)
-                        mana-=40
+                        mana-=60
 
                 elif (event.key==pygame.K_w):
                     if mana>=100:

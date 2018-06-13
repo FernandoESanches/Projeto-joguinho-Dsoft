@@ -106,19 +106,16 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                 if personagem.tipo=='Goku':
                     personagem.altera_boneco(['gokuat2.png','gokuat3.png','gokuat4.png',\
                                             'gokuat5.png','gokuat6.png','gokuat7.png','gokuat8.png'])
-                    dano = powerup(800,5,30)
-                    dano = powerup(1200,dano,30)
+                    
                 elif personagem.tipo=='Naruto':
                     personagem.altera_boneco(['naruto_1.png','naruto_2.png','naruto_3.png',\
                                                 'naruto_4.png','naruto_5.png','naruto_6.png','naruto_7.png',\
                                                 'naruto_8.png'])
-                    dano = powerup(1000,40,50)
-                    dano = powerup(1300,dano,50)
+                    
                     
                 elif personagem.tipo=='Luffy':
                     personagem.altera_boneco(['luffysoco1.png','luffysoco2.png','luffysoco3.png','luffysoco4.png'])
-                    dano = powerup(1100,40,50)
-                    dano = powerup(1400,dano,50)
+                   
                     
 
                 elif personagem.tipo=='Sasuke':
@@ -319,7 +316,7 @@ while rodando:
                     if mana>=40:
                         Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
                         Goku.vida=2500
-                        Goku.dano=5
+                        Goku.dano=powerup(800,5,10)
                         todos_amigos.add(Goku)
                         mana-=40
 
@@ -327,7 +324,7 @@ while rodando:
                     if mana>=100:
                         Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
                         Naruto.vida=2000
-                        Naruto.dano=40
+                        Naruto.dano=powerup(1000,40,20)
                         todos_amigos.add(Naruto)
                         mana-=100
                 
@@ -336,7 +333,7 @@ while rodando:
                         Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
                             'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
                         Luffy.vida=4000
-                        Luffy.dano=50
+                        Luffy.dano=powerup(1100,50,30)
                         todos_amigos.add(Luffy)
                         mana-=300
 

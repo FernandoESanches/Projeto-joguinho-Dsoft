@@ -278,7 +278,7 @@ the_portal.add(portal)
 
 #Controle de mana
 mana_max=300
-limite=1000
+limite=10000
 mana=100
 vel_mana=1
 

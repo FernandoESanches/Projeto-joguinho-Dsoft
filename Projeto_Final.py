@@ -86,12 +86,8 @@ class Portal(pygame.sprite.Sprite):
         self.image=self.imagens[self.index]
 
 # =========================================Função====================================
-def powerup(uuup,dano_inicial,power):
-    if mana_max >= uuup:
-        dano = dano_inicial
-        dano += power
-    else:
-        dano = dano_inicial
+def powerup(power):
+    dano += power
     return dano
 
 def acao(grupo_amigo, grupo_inimigo,pontuacao):
@@ -115,7 +111,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
                     
                 elif personagem.tipo=='Luffy':
                     personagem.altera_boneco(['luffysoco1.png','luffysoco2.png','luffysoco3.png','luffysoco4.png'])
-                   
+                    
                     
 
                 elif personagem.tipo=='Sasuke':
@@ -273,11 +269,16 @@ torre.vida(10000)
 todos_amigos.add(torre)
 the_portal.add(portal)
 
-#Controle de mana
+#Controle de mana e powerup
 mana_max=300
 limite=10000
 mana=100
 vel_mana=1
+power = 1000
+dano2=0
+danogoku=0
+danonaruto=0
+danoluffy=0
 
 #Caracteristicas do Boss
 BOSS={'vida':10000,'dano':100}
@@ -313,18 +314,20 @@ while rodando:
                 rodando = False
             if (event.type==pygame.KEYDOWN):
                 if (event.key==pygame.K_q):
-                    if mana>=60:
+                    if mana>=40:
                         Goku = Boneco(['goku1.png','goku2.png','goku3.png','goku4.png'],5,275,'Goku',200,158)
                         Goku.vida=2500
-                        Goku.dano=powerup(800,5,10)
+                        dano = 5 + danogoku
+                        Goku.dano=dano
                         todos_amigos.add(Goku)
-                        mana-=60
+                        mana-=40
 
                 elif (event.key==pygame.K_w):
                     if mana>=100:
                         Naruto = Boneco(['naruto1.png','naruto2.png','naruto3.png'],5,370,'Naruto',115,146)
                         Naruto.vida=2000
-                        Naruto.dano=powerup(1000,40,20)
+                        dano = 40 +danonaruto
+                        Naruto.dano=dano
                         todos_amigos.add(Naruto)
                         mana-=100
                 
@@ -333,7 +336,8 @@ while rodando:
                         Luffy = Boneco(['luffy1.png','luffy2.png','luffy3.png','luffy4.png','luffy5.png',\
                             'luffy6.png','luffy7.png','luffy8.png'],5,380,'Luffy',87,100)
                         Luffy.vida=4000
-                        Luffy.dano=powerup(1100,50,30)
+                        dano = 50+danoluffy
+                        Luffy.dano=dano
                         todos_amigos.add(Luffy)
                         mana-=300
 
@@ -344,6 +348,13 @@ while rodando:
                             vel_mana+=0.5
                             mana-=valor_da_mana
                             valor_da_mana+=30
+                elif (event.key==pygame.K_p):
+                    if mana>=power:
+                        danogoku+=10
+                        danonaruto+=20
+                        danoluffy+=30
+                        power +=1000
+                        mana-=50
         
         acao(inimigo_group,todos_amigos,pontuacao)
         acao(todos_amigos,inimigo_group,pontuacao)

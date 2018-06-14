@@ -92,7 +92,7 @@ def acao(grupo_amigo, grupo_inimigo,pontuacao):
         if colisoes:
             punch = pygame.mixer.Sound('smack.wav')
             punch.play()
-            punch.set_volume(0.3)
+            punch.set_volume(0.2)
             if personagem!=torre:
                 personagem.move(0)
                 if personagem.tipo=='Goku':
@@ -457,6 +457,7 @@ while rodando:
         None
 
 firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)
+print('Pontuação:{0}. \nRecorde:{1}.'.format(pontuacao['pontos'],recorde))
 pygame.display.quit()
 Música_pygame.stop()
 Música_pygame.fadeout

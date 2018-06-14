@@ -457,7 +457,6 @@ while rodando:
         None
 
 firebase.put('https://joguinho-desoft.firebaseio.com/','Score',recorde)
-print('Pontuação:{0}. \nRecorde:{1}.'.format(pontuacao['pontos'],recorde))
 pygame.display.quit()
 Música_pygame.stop()
 Música_pygame.fadeout

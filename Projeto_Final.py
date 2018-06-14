@@ -396,10 +396,12 @@ while rodando:
         telinha_naruto = pygame.image.load('Naruto_indisponivel.png')
         telinha_mana = pygame.image.load('crystal_pixel_mana_bloqueada.png')
         telinha_luffy = pygame.image.load('Cara_luffy_bloqueada.png')
+        telinha_power_up = pygame.image.load('Músculo_power_up_bloqueada.png')
         tela.blit(telinha_goku,(320,0))
         tela.blit(telinha_naruto,(402,0))
         tela.blit(telinha_mana,(566,0))
         tela.blit(telinha_luffy,(484,0))
+        tela.blit(telinha_power_up,(648,0))
         
         #Cooldown dos personagens
         def cooldown(mana_min, imagem,posicao):
@@ -411,6 +413,7 @@ while rodando:
         cooldown(300,"Cara_luffy.png",(484,0))
         cooldown(valor_da_mana,'crystal_pixel_mana.png',(566,0))
         cooldown(300,"Cara_luffy.png",(484,0))
+        cooldown(1000,"Músculo_power_up.png",(648,0))
         
         #Tempo para dar o update
         if contador==1:
